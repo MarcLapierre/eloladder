@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907015808) do
+ActiveRecord::Schema.define(version: 20160924171847) do
+
+  create_table "invitations", force: :cascade do |t|
+    t.string   "token",       null: false
+    t.integer  "league_id",   null: false
+    t.integer  "user_id"
+    t.string   "email",       null: false
+    t.string   "state",       null: false
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["email"], name: "index_invitations_on_email"
+    t.index ["league_id"], name: "index_invitations_on_league_id"
+    t.index ["state"], name: "index_invitations_on_state"
+    t.index ["token"], name: "index_invitations_on_token"
+    t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
 
   create_table "leagues", force: :cascade do |t|
     t.string   "name",        null: false
