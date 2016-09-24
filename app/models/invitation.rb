@@ -1,12 +1,14 @@
 class Invitation < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :league
 
   STATES = %w{pending accepted declined}
 
-  validates :league, presence: true
+  STATES.each do |state|
+    scope state, -> { where(state: state) }
+  end
+
   validates :email, presence: true
   validates :token, presence: true
   validates :state, inclusion: STATES
-
 end
