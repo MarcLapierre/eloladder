@@ -1,0 +1,26 @@
+<h2>My Leagues</h2>
+
+<% if @leagues.any? %>
+  <table class="list leagues">
+    <tr>
+      <th>Logo</th>
+      <th>Name</th>
+      <th>Action</th>
+    </tr>
+  <% @leagues.each do |league| %>
+    <tr>
+      <td class="logo"><img src="<%= league.logo_url %>"></td>
+      <td class="name"><%= league.name %></td>
+      <td class="action">
+        <%= link_to "Manage", edit_league_path(league) %>
+        <%= link_to "Delete", league_path(league), method: :delete %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <div class="empty-text">
+    <div class="message">You have no leagues.</div>
+    <div class="link"><%= link_to "Create one", new_league_path %></div>
+  </div>
+<% end %>

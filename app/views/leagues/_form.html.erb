@@ -1,0 +1,30 @@
+<%= form_for @league, url: { action: action } do |f| %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :rules %><br />
+    <%= f.text_field :rules %>
+  </div>
+
+  <div class="field">
+    <%= f.label :website_url %><br />
+    <%= f.text_field :website_url %>
+  </div>
+
+  <div class="field">
+    <%= f.label :logo_url %><br />
+    <%= f.text_field :logo_url %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit button_text %>
+  </div>
+<% end %>

@@ -16,8 +16,19 @@
         <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
       <% end %>
     </ul>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <!-- <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p> -->
+    <div class="flash">
+      <% [:notice, :error].each do |item| %>
+        <% if flash[item] %>
+          <div class="<%= item.to_s %>">
+            <ul>
+              <li><%= flash[item] %></li>
+            </ul>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
     <%= yield %>
   </body>
 </html>

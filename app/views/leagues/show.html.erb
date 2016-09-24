@@ -1,0 +1,22 @@
+<h2><%= @league.name %></h2>
+
+<% if @league.website_url %>
+  <%= link_to "Website", @league.website_url %>
+<% end %>
+
+<% if @league.logo_url %>
+  <img src="<%= @league.logo_url %>" />
+<% end %>
+
+<section>
+  <p><%= @league.description %></p>
+</section>
+
+<section>
+  <h3>Rules</h3>
+  <p><%= @league.rules %></p>
+</section>
+
+<div class="actions">
+  <%= link_to "Edit", edit_league_path(@league) %>
+</div>
