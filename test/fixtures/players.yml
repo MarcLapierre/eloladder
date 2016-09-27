@@ -1,0 +1,5 @@
+chef_sac:
+  user: chef
+  league: super_adventure_club
+  rating: 1500
+  pro: false
