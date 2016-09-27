@@ -7,7 +7,7 @@ class Invitation::Decline < ActiveOperation::Base
   end
 
   def execute
-    existing_invitation.update_attributes(
+    existing_invitation.update_attributes!(
       user: user,
       state: 'declined',
       declined_at: Time.now.utc

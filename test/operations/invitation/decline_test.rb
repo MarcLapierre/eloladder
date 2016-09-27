@@ -30,6 +30,20 @@ class Invitation::DeclineTest < ActiveSupport::TestCase
     assert_equal @user, invitation.user
   end
 
+  test "declining an invitation with an invalid token returns a halted state" do
+    op = Invitation::Decline.new(token: 'an invalid token', user: @user)
+    op.call
+    assert op.halted?
+  end
+
+  test "a failed update results in an error being raised" do
+    Invitation.any_instance.expects(:update_attributes!).raises(ActiveRecord::ActiveRecordError.new("some error"))
+
+    assert_raises 'ActiveRecord::ActiveRecordError' do
+      Invitation::Decline.call(token: @invitation.token, user: @user)
+    end
+  end
+
   private
 
   def create_invitation(email, league)

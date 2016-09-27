@@ -7,7 +7,7 @@ class Invitation::Accept < ActiveOperation::Base
   end
 
   def execute
-    existing_invitation.update_attributes(
+    existing_invitation.update_attributes!(
       user: user,
       state: 'accepted',
       accepted_at: Time.now.utc
