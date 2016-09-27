@@ -24,4 +24,14 @@ class PlayerTest < ActiveSupport::TestCase
     @player.pro = nil
     refute @player.valid?
   end
+
+  test "pro designation defaults to false" do
+    pro = Player.new.pro?
+    assert_equal false, pro
+  end
+
+  test "rating defaults to 1500" do
+    rating = Player.new.rating
+    assert_equal 1500, rating
+  end
 end
