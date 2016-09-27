@@ -8,14 +8,14 @@ class LeaguesController < ApplicationController
 
   def create
     permitted = params.permit(["name", "description", "rules", "website_url", "logo_url"])
-
     @league = League.new(permitted.merge(user: current_user))
-    if @league.save
+    if @league.valid?
+      League::Create.call(@league)
       flash[:notice] = "League created successfully"
       redirect_to @league
     else
       flash[:error] = @league.errors.full_messages
-      render "new"
+      render 'new'
     end
   end
 

@@ -4,4 +4,5 @@ class User < ApplicationRecord
          :confirmable, :omniauthable
 
   has_many :leagues
+  has_many :players
 end
