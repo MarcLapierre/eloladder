@@ -18,7 +18,7 @@ class Invitation::AcceptTest < ActiveSupport::TestCase
     assert_equal 'accepted', invitation.state
   end
 
-  test "accepting an invitation sets accepted_on" do
+  test "accepting an invitation sets accepted_at" do
     Timecop.freeze do
       invitation = Invitation::Accept.call(token: @invitation.token, user: @user)
       assert_equal Time.now.utc, invitation.accepted_at
