@@ -12,13 +12,13 @@ class Invitation::Create < ActiveOperation::Base
       user: user,
       email: email,
       state: 'pending',
-      token: generate_token
+      token: token
     )
   end
 
-  # succeeded do
-  #   UserMailer.invite_email(email).deliver_now
-  # end
+  succeeded do
+    UserMailer.invitation_email(email, league.name, token).deliver_now
+  end
 
   private
 
@@ -34,8 +34,8 @@ class Invitation::Create < ActiveOperation::Base
     @user ||= User.find_by(email: email)
   end
 
-  def generate_token
-    loop do
+  def token
+    @token ||= loop do
       random_token = SecureRandom.hex(32)
       break random_token unless Invitation.exists?(token: random_token)
     end

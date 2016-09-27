@@ -43,4 +43,11 @@ class Invitation::CreateTest < ActiveSupport::TestCase
       Invitation::Create.call(league: @league, email: @email)
     end
   end
+
+  test "sends an invitation email on success" do
+    mail_message = stub(:deliver_now)
+    UserMailer.expects(:invitation_email).with(@email, @league.name, anything).returns(mail_message)
+    mail_message.expects(:deliver_now)
+    Invitation::Create.call(league: @league, email: @email)
+  end
 end
