@@ -3,8 +3,8 @@ require 'test_helper'
 class Invitation::CreateTest < ActiveSupport::TestCase
   def setup
     @league = leagues(:super_adventure_club)
-    @user_with_no_invitation = users(:chef)
-    @user_with_invitation = users(:tom)
+    @user_with_invitation = users(:with_pending_invitation)
+    @user_with_no_invitation = users(:without_invitations)
     @email = "address_without_a_user@example.com"
   end
 

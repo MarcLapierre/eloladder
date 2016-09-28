@@ -3,7 +3,7 @@ require 'test_helper'
 class LeagueTest < ActiveSupport::TestCase
   setup do
     @league = leagues(:super_adventure_club)
-    @user = users(:chef)
+    @user = users(:league_owner)
   end
 
   test "league must be owned by a user" do

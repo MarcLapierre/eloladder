@@ -2,7 +2,7 @@ require 'test_helper'
 
 class League::CreateTest < ActiveSupport::TestCase
   def setup
-    @user = users(:chef)
+    @user = users(:league_owner)
   end
 
   test "call succeeds" do

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class InvitationTest < ActiveSupport::TestCase
   setup do
-    @invitation = invitations(:pending_with_user)
+    @invitation = invitations(:pending)
   end
 
   test "must have a league" do

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Invitation::DeclineTest < ActiveSupport::TestCase
   def setup
-    @user = users(:chef)
+    @user = users(:league_owner)
     @league = leagues(:super_adventure_club)
     @invitation = create_invitation(@user.email, @league)
   end

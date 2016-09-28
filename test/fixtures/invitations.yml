@@ -4,9 +4,8 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-pending_with_user:
-  user: tom
+pending:
   league: super_adventure_club
   token: abc123
-  email: test@example.com
+  email: tom@sac.sp
   state: pending

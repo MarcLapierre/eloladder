@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PlayerTest < ActiveSupport::TestCase
   setup do
-    @player = players(:chef_sac)
+    @player = players(:league_owner_sac)
   end
 
   test "player must have a user" do

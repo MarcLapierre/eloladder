@@ -15,6 +15,10 @@ class Invitation::Accept < ActiveOperation::Base
     existing_invitation
   end
 
+  succeeded do
+    output.league.players.create!(user: user)
+  end
+
   private
 
   def existing_invitation

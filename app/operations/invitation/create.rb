@@ -24,10 +24,9 @@ class Invitation::Create < ActiveOperation::Base
 
   def existing_invitation
     if user
-      invitation = Invitation.pending.where(user: user, league: league)
+      invitation = Invitation.pending.where(user: user, league: league).first
     end
-    invitation ||= Invitation.pending.where(email: email, league: league)
-    invitation.first
+    invitation ||= Invitation.pending.where(email: email, league: league).first
   end
 
   def user

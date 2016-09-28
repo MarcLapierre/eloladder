@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Invitation::AcceptTest < ActiveSupport::TestCase
   def setup
-    @user = users(:chef)
+    @user = users(:without_invitations)
     @league = leagues(:super_adventure_club)
     @invitation = create_invitation(@user.email, @league)
   end
@@ -28,6 +28,13 @@ class Invitation::AcceptTest < ActiveSupport::TestCase
   test "accepting an invitation sets the user" do
     invitation = Invitation::Accept.call(token: @invitation.token, user: @user)
     assert_equal @user, invitation.user
+  end
+
+  test "accepting an invitation creates a player for the user and league" do
+    assert_difference 'Player.count', 1 do
+      invitation = Invitation::Accept.call(token: @invitation.token, user: @user)
+      assert_equal 1, invitation.league.players.where(user: @user).count
+    end
   end
 
   test "accepting an invitation with an invalid token returns a halted state" do

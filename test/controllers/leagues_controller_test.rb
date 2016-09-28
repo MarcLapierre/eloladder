@@ -4,8 +4,8 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   def setup
-    @user_with_leagues = users(:chef)
-    @user_without_leagues = users(:tom)
+    @user_with_leagues = users(:league_owner)
+    @user_without_leagues = users(:with_pending_invitation)
     @league = leagues(:super_adventure_club)
   end
 

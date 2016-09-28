@@ -4,16 +4,23 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-chef:
+league_owner:
   first_name: 'Isaac'
   last_name: 'Hayes'
   email: chef@sac.sp
   encrypted_password: <%= User.new.send(:password_digest, 'hellochildren') %>
   confirmed_at: 2016-10-20 00:00:00
 
-tom:
+with_pending_invitation:
   first_name: 'Tom'
   last_name: 'Cruise'
   email: tom@sac.sp
   encrypted_password: <%= User.new.send(:password_digest, 'spacecadet') %>
+  confirmed_at: 2016-10-20 00:00:00
+
+without_invitations:
+  first_name: 'First'
+  last_name: 'Last'
+  email: nothing@sac.sp
+  encrypted_password: <%= User.new.send(:password_digest, 'somepassword') %>
   confirmed_at: 2016-10-20 00:00:00

@@ -1,5 +1,5 @@
-chef_sac:
-  user: chef
+league_owner_sac:
+  user: league_owner
   league: super_adventure_club
   rating: 1500
   pro: false
