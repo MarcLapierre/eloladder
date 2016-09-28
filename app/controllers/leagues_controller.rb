@@ -28,8 +28,11 @@ class LeaguesController < ApplicationController
   end
 
   def update
-    permitted = params.require(:league).permit(permitted_attributes).merge(user: current_user)
-    if @league.update(permitted)
+    permitted = params.require(:league).permit(permitted_attributes).merge(league: @league)
+    op = League::Update.new(permitted.to_h.symbolize_keys)
+    @league = op.call
+    
+    if op.succeeded?
       flash[:notice] = "League updated successfully"
       redirect_to @league
     else

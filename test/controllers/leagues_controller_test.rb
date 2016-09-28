@@ -170,10 +170,11 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(League.last)
   end
 
-  test "#update renders edit with errors if creation fails" do
+  test "#update renders edit with errors if update fails" do
     sign_in @user_with_leagues
 
-    put league_path(@league), params: { league: league_params.merge!(name: nil) }
+    League.any_instance.stubs(:update_attributes).returns(false)
+    put league_path(@league), params: { league: league_params }
     assert_template 'edit'
     assert_select "div.flash>div.error"
   end
