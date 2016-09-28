@@ -7,10 +7,11 @@ class LeaguesController < ApplicationController
   end
 
   def create
-    permitted = params.permit(["name", "description", "rules", "website_url", "logo_url"])
-    @league = League.new(permitted.merge(user: current_user))
-    if @league.valid?
-      League::Create.call(@league)
+    permitted = params.permit(permitted_attributes).merge(user: current_user)
+    op = League::Create.new(permitted.to_h.symbolize_keys)
+    @league = op.call
+
+    if op.succeeded?
       flash[:notice] = "League created successfully"
       redirect_to @league
     else
@@ -27,7 +28,7 @@ class LeaguesController < ApplicationController
   end
 
   def update
-    permitted = params.require(:league).permit(["name", "description", "rules", "website_url", "logo_url"])
+    permitted = params.require(:league).permit(permitted_attributes).merge(user: current_user)
     if @league.update(permitted)
       flash[:notice] = "League updated successfully"
       redirect_to @league
@@ -58,5 +59,9 @@ class LeaguesController < ApplicationController
       flash[:error] = "We couldn't find that league."
       redirect_to leagues_path
     end
+  end
+
+  def permitted_attributes
+    ["name", "description", "rules", "website_url", "logo_url"]
   end
 end
