@@ -31,7 +31,7 @@ class LeaguesController < ApplicationController
     permitted = params.require(:league).permit(permitted_attributes).merge(league: @league)
     op = League::Update.new(permitted.to_h.symbolize_keys)
     @league = op.call
-    
+
     if op.succeeded?
       flash[:notice] = "League updated successfully"
       redirect_to @league
@@ -42,16 +42,6 @@ class LeaguesController < ApplicationController
   end
 
   def edit
-  end
-
-  def destroy
-    if @league.destroy
-      flash[:notice] = "League deleted successfully"
-      redirect_to leagues_path
-    else
-      flash[:error] = @league.errors.full_messages
-      redirect_to @league
-    end
   end
 
   private

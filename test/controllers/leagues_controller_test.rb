@@ -179,40 +179,6 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.flash>div.error"
   end
 
-  test "#destroy redirects to login page if user is not logged in" do
-    delete league_path(@league)
-    assert_redirected_to new_user_session_path
-  end
-
-  test "#destroy redirects index page with error if the user does not own the league" do
-    sign_in @user_without_leagues
-    delete league_path(@league)
-    assert_redirected_to leagues_path
-
-    follow_redirect!
-    assert_select "div.flash>div.error"
-    assert_template 'index'
-  end
-
-  test "#destroy destroys a league" do
-    sign_in @user_with_leagues
-    delete league_path(@league)
-    assert_raises 'ActiveRecord::RecordNotFound' do
-      @league.reload
-    end
-  end
-
-  test "#destroy redirects to leagues#index with a notice" do
-    sign_in @user_with_leagues
-
-    delete league_path(@league)
-    assert_redirected_to leagues_path
-
-    follow_redirect!
-    assert_select "div.flash>div.notice"
-    assert_template 'index'
-  end
-
   private
 
   def league_params
