@@ -3,6 +3,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
 
-  has_many :leagues
   has_many :players
+  has_many :leagues, through: :players
 end

@@ -13,7 +13,6 @@ class League::CreateTest < ActiveSupport::TestCase
 
   test "call sets league parameters to the expected values" do
     league = League::Create.call(params)
-    assert_equal params[:user], league.user
     assert_equal params[:name], league.name
     assert_equal params[:description], league.description
     assert_equal params[:rules], league.rules
@@ -25,19 +24,20 @@ class League::CreateTest < ActiveSupport::TestCase
     assert_difference 'Player.count', 1 do
       league = League::Create.call(params)
       player = league.players.find_by(user: @user)
-      assert player
+
       assert_equal 1, league.players.count
+      assert player.owner?
     end
   end
 
   test "call halts if the parameters are not valid" do
-    op = League::Create.new(params.merge(user: nil))
+    op = League::Create.new(params.merge(name: nil))
     op.call
     assert op.halted?
   end
 
   test "call returns the unpersisted league object when halting" do
-    op = League::Create.new(params.merge(user: nil))
+    op = League::Create.new(params.merge(name: nil))
     op.call
     assert op.output.is_a?(League)
     refute op.output.persisted?

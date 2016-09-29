@@ -20,18 +20,25 @@ class PlayerTest < ActiveSupport::TestCase
     refute @player.valid?
   end
 
+  test "player must have an owner setting" do
+    @player.owner = nil
+    refute @player.valid?
+  end
+
   test "player must have a pro designation" do
     @player.pro = nil
     refute @player.valid?
   end
 
   test "pro designation defaults to false" do
-    pro = Player.new.pro?
-    assert_equal false, pro
+    refute Player.new.pro?
+  end
+
+  test "owner defaults to false" do
+    refute Player.new.owner?
   end
 
   test "rating defaults to 1500" do
-    rating = Player.new.rating
-    assert_equal 1500, rating
+    assert_equal 1500, Player.new.rating
   end
 end

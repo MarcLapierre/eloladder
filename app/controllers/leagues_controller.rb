@@ -1,6 +1,7 @@
 class LeaguesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_league, only: [:show, :edit, :update, :destroy]
+  before_action :load_league, only: [:show, :edit, :update]
+  before_action :ensure_owner, only: [:edit, :update]
 
   def new
     @league = League.new
@@ -50,6 +51,13 @@ class LeaguesController < ApplicationController
     @league = current_user.leagues.find_by_id(params[:id])
     unless @league
       flash[:error] = "We couldn't find that league."
+      redirect_to leagues_path
+    end
+  end
+
+  def ensure_owner
+    unless @league.players.find_by(user: current_user).owner
+      flash[:error] = "Nuh-uh. Can't do that."
       redirect_to leagues_path
     end
   end

@@ -3,3 +3,4 @@ league_owner_sac:
   league: super_adventure_club
   rating: 1500
   pro: false
+  owner: true

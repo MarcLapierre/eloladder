@@ -8,7 +8,6 @@ class League::Create < ActiveOperation::Base
 
   def execute
     league = League.new(
-      user: user,
       name: name,
       description: description,
       rules: rules,
@@ -19,7 +18,7 @@ class League::Create < ActiveOperation::Base
     halt league unless league.valid?
 
     league.save!
-    league.players.create!(user: league.user)
+    league.players.create!(user: user, owner: true)
     league
   end
 end

@@ -8,6 +8,7 @@ class Player < ApplicationRecord
   validates :league, presence: true
   validates :rating, presence: true
   validates :pro, inclusion: [true, false]
+  validates :owner, inclusion: [true, false]
 
   def init
     self.pro = false
