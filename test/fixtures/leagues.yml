@@ -1,12 +1,11 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
 super_adventure_club:
   name: Super Adventure Club
   description: We can't talk about it.
   rules: There are no rules.
   website_url: https://en.wikipedia.org/wiki/The_Return_of_Chef
   logo_url: https://upload.wikimedia.org/wikipedia/en/f/fc/Darthchef.png
+
+adventure_club:
+  name: Adventure Club
+  description: I don't wanna taco 'bout it.
+  rules: There are some rules.

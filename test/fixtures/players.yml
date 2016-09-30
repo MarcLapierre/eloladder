@@ -4,3 +4,24 @@ league_owner_sac:
   rating: 1500
   pro: false
   owner: true
+
+player:
+  user: player
+  league: super_adventure_club
+  rating: 1500
+  pro: false
+  owner: false
+
+opponent:
+  user: opponent
+  league: super_adventure_club
+  rating: 1500
+  pro: false
+  owner: false
+
+league_owner_ac:
+  user: league_owner_ac
+  league: adventure_club
+  rating: 1500
+  pro: false
+  owner: true

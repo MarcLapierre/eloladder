@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929190046) do
+ActiveRecord::Schema.define(version: 20160930174128) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "token",       null: false
@@ -50,6 +50,23 @@ ActiveRecord::Schema.define(version: 20160929190046) do
     t.boolean  "admin",      default: false
     t.index ["league_id"], name: "index_players_on_league_id"
     t.index ["user_id"], name: "index_players_on_user_id"
+  end
+
+  create_table "ranking_histories", force: :cascade do |t|
+    t.integer  "league_id",               null: false
+    t.integer  "player_id",               null: false
+    t.integer  "opponent_id",             null: false
+    t.integer  "ranking_before",          null: false
+    t.integer  "ranking_after",           null: false
+    t.integer  "opponent_ranking_before", null: false
+    t.integer  "opponent_ranking_after",  null: false
+    t.boolean  "won",                     null: false
+    t.integer  "score",                   null: false
+    t.integer  "opponent_score",          null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["league_id"], name: "index_ranking_histories_on_league_id"
+    t.index ["player_id"], name: "index_ranking_histories_on_player_id"
   end
 
   create_table "users", force: :cascade do |t|

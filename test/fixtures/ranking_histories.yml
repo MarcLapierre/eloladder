@@ -1,0 +1,23 @@
+player_1:
+  league: super_adventure_club
+  player: player
+  opponent: opponent
+  ranking_before: 1500
+  ranking_after: 1550
+  opponent_ranking_before: 1500
+  opponent_ranking_after: 1450
+  won: true
+  score: 2
+  opponent_score: 1
+
+opponent_1:
+  league: super_adventure_club
+  player: opponent
+  opponent: player
+  ranking_before: 1500
+  ranking_after: 1450
+  opponent_ranking_before: 1500
+  opponent_ranking_after: 1550
+  won: false
+  score: 1
+  opponent_score: 2
