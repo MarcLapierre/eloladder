@@ -11,4 +11,8 @@ class Invitation < ApplicationRecord
   validates :email, presence: true
   validates :token, presence: true
   validates :state, inclusion: STATES
+
+  def to_param
+    token
+  end
 end
