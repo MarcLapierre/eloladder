@@ -12,8 +12,11 @@
       <td class="logo"><img src="<%= league.logo_url %>"></td>
       <td class="name"><%= league.name %></td>
       <td class="action">
-        <%= link_to "Manage", edit_league_path(league) %>
-        <%= link_to "Delete", league_path(league), method: :delete %>
+        <%= link_to "View", league_path(league) %>
+        <% if current_user.players.find_by(league: league).owner %>
+          <%= link_to "Manage", edit_league_path(league) %>
+          <%= link_to "Delete", league_path(league), method: :delete %>
+        <% end %>
       </td>
     </tr>
   <% end %>

@@ -20,3 +20,19 @@
 <div class="actions">
   <%= link_to "Edit", edit_league_path(@league) %>
 </div>
+
+<section>
+  <h3>Rankings</h3>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Rating</th>
+    </tr>
+    <% @league.players.order(rating: :desc).each do |player| %>
+    <tr>
+      <td><%= player.user.first_name %> <%= player.user.last_name %></td>
+      <td><%= player.rating %></td>
+    </tr>
+    <% end %>
+  </table>
+</section>

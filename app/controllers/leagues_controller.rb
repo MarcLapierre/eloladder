@@ -8,7 +8,7 @@ class LeaguesController < ApplicationController
   end
 
   def create
-    permitted = params.permit(permitted_attributes).merge(user: current_user)
+    permitted = params.require(:league).permit(permitted_attributes).merge(user: current_user)
     op = League::Create.new(permitted.to_h.symbolize_keys)
     @league = op.call
 
