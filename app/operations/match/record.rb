@@ -1,9 +1,9 @@
 class Match::Record < ActiveOperation::Base
-  input :league, accepts: League, type: :keyword
-  input :player, accepts: Player, type: :keyword
-  input :opponent, accepts: Player, type: :keyword
-  input :score, accepts: Integer, type: :keyword
-  input :opponent_score, accepts: Integer, type: :keyword
+  input :league, accepts: League, type: :keyword, required: true
+  input :player, accepts: Player, type: :keyword, required: true
+  input :opponent, accepts: Player, type: :keyword, required: true
+  input :score, accepts: Integer, type: :keyword, required: true
+  input :opponent_score, accepts: Integer, type: :keyword, required: true
 
   before do
     halt unless player.league == league && opponent.league == league

@@ -25,15 +25,11 @@ class Match::RecordTest < ActiveSupport::TestCase
   end
 
   test "updates rating for both players" do
-    old_player_rating = @player.rating
-    old_opponent_rating = @opponent.rating
-
-    Match::Record.call(params)
-    @player.reload
-    @opponent.reload
-
-    assert_not_equal old_player_rating, @player.rating
-    assert_not_equal old_opponent_rating, @opponent.rating
+    assert_difference '@player.reload.rating', 12 do
+      assert_difference '@opponent.reload.rating', -13 do
+        Match::Record.call(params)
+      end
+    end
   end
 
   test "increments games played for both players" do
@@ -64,23 +60,22 @@ class Match::RecordTest < ActiveSupport::TestCase
     assert op.halted?
   end
 
-  # rollback fails in test, works in dev
-  # test "does not record match results if any of the commits fail" do
-  #   @opponent.expects(:update!).raises(ActiveRecord::StatementInvalid.new("error"))
-  #   assert_no_difference '@player.games_played' do
-  #     assert_no_difference '@opponent.games_played' do
-  #       assert_no_difference '@player.rating' do
-  #         assert_no_difference '@opponent.rating' do
-  #           assert_no_difference 'RatingHistory.count' do
-  #             assert_raise 'ActiveRecord::StatementInvalid' do
-  #               Match::Record.call(params)
-  #             end
-  #           end
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
+  test "does not record match results if any of the commits fail" do
+    @opponent.expects(:update!).raises(ActiveRecord::StatementInvalid.new("error"))
+    assert_no_difference '@player.reload.games_played' do
+      assert_no_difference '@opponent.reload.games_played' do
+        assert_no_difference '@player.reload.rating' do
+          assert_no_difference '@opponent.reload.rating' do
+            assert_no_difference 'RatingHistory.count' do
+              assert_raise 'ActiveRecord::StatementInvalid' do
+                Match::Record.call(params)
+              end
+            end
+          end
+        end
+      end
+    end
+  end
 
   private
 

@@ -19,6 +19,10 @@ class LeaguesController < ApplicationController
       flash[:error] = @league.errors.full_messages
       render 'new'
     end
+  rescue StandardError => e
+    Rails.logger.error("LeaguesController#create #{e.inspect}")
+    flash[:error] = "There was a creating the league."
+    render "new"
   end
 
   def index
@@ -40,6 +44,10 @@ class LeaguesController < ApplicationController
       flash[:error] = @league.errors.full_messages
       render "edit"
     end
+  rescue StandardError => e
+    Rails.logger.error("LeaguesController#update #{e.inspect}")
+    flash[:error] = "There was a updating the league."
+    render "edit"
   end
 
   def edit
@@ -48,15 +56,23 @@ class LeaguesController < ApplicationController
   def add_match_result
     player = @league.players.find_by(user: current_user)
     opponent = @league.players.find_by(id: params[:opponent_id])
-    op = Match::Record.new(league: @league, player: player, opponent: opponent,
-      score: params[:score], opponent_score: params[:opponent_score])
+    op = Match::Record.new(
+      league: @league,
+      player: player,
+      opponent: opponent,
+      score: params[:score].to_i,
+      opponent_score: params[:opponent_score].to_i
+    )
     op.call
     if op.succeeded?
-      flash[:notice] = "League updated successfully"
+      flash[:notice] = "Your match was recorded successfully!"
     else
-      flash[:error] = op.output.errors.full_messages
+      flash[:error] = "There was a problem recording your match."
     end
-
+  rescue StandardError => e
+    Rails.logger.error("LeaguesController#add_match_result #{e.inspect}")
+    flash[:error] = "There was a problem sending the invitation."
+  ensure
     redirect_to @league
   end
 

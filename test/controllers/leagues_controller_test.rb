@@ -7,6 +7,8 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     @user_league_owner = users(:league_owner)
     @user_with_pending_invitation = users(:with_pending_invitation)
     @league = leagues(:super_adventure_club)
+    @player = players(:league_owner_sac)
+    @opponent = players(:opponent)
   end
 
   test "#index redirects to login page if user is not logged in" do
@@ -177,6 +179,75 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     put league_path(@league), params: { league: league_params }
     assert_template 'edit'
     assert_select "div.flash>div.error"
+  end
+
+  test "#add_match_result redirects to login page if user is not logged in" do
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    assert_redirected_to new_user_session_path
+  end
+
+  test "#add_match_result redirects to leagues#index if user is not in the league" do
+    sign_in @user_with_pending_invitation
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    assert_redirected_to leagues_path
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
+    assert_template 'index'
+  end
+
+  test "#add_match_result redirects to league#show with notice" do
+    sign_in @user_league_owner
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    assert_redirected_to league_path(@league)
+
+    follow_redirect!
+    assert_select "div.flash>div.notice"
+    assert_template 'show'
+  end
+
+  test "#add_match_result creates rating histories for both users" do
+    sign_in @user_league_owner
+    assert_difference 'RatingHistory.count', 2 do
+      assert_difference '@player.rating_histories.count', 1 do
+        assert_difference '@opponent.rating_histories.count', 1 do
+          post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+        end
+      end
+    end
+  end
+
+  test "#add_match_result updates user statistics" do
+    sign_in @user_league_owner
+    assert_difference '@player.reload.rating', 12 do
+      assert_difference '@opponent.reload.rating', -13 do
+        assert_difference '@player.reload.games_played', 1 do
+          assert_difference '@opponent.reload.games_played', 1 do
+            post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+          end
+        end
+      end
+    end
+  end
+
+  test "#add_match_result redirects to leagues#index with error if player is not in the league" do
+    sign_in @user_with_pending_invitation
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    assert_redirected_to leagues_path
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
+    assert_template 'index'
+  end
+
+  test "#add_match_result redirects to leagues#show with error if opponent is not in the league" do
+    sign_in @user_league_owner
+    post league_add_match_result_path(@league), params: { opponent_id: players(:league_owner_ac).id, score: 2, opponent_score: 1 }
+    assert_redirected_to league_path(@league)
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
+    assert_template 'show'
   end
 
   private
