@@ -219,8 +219,8 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
   test "#add_match_result updates user statistics" do
     sign_in @user_league_owner
-    assert_difference '@player.reload.rating', 12 do
-      assert_difference '@opponent.reload.rating', -13 do
+    assert_difference '@player.reload.rating', 20 do
+      assert_difference '@opponent.reload.rating', -20 do
         assert_difference '@player.reload.games_played', 1 do
           assert_difference '@opponent.reload.games_played', 1 do
             post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }

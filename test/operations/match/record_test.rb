@@ -25,8 +25,8 @@ class Match::RecordTest < ActiveSupport::TestCase
   end
 
   test "updates rating for both players" do
-    assert_difference '@player.reload.rating', 12 do
-      assert_difference '@opponent.reload.rating', -13 do
+    assert_difference '@player.reload.rating', 20 do
+      assert_difference '@opponent.reload.rating', -20 do
         Match::Record.call(params)
       end
     end
@@ -38,6 +38,30 @@ class Match::RecordTest < ActiveSupport::TestCase
         Match::Record.call(params)
       end
     end
+  end
+
+  test "sets player pro status if rating goes above 2400" do
+    @player.rating = Elo.config.pro_rating_boundry
+    Match::Record.call(params)
+    assert @player.pro
+  end
+
+  test "sets opponent pro status if rating goes above 2400" do
+    @opponent.rating = Elo.config.pro_rating_boundry
+    Match::Record.call(params.merge(score: 1, opponent_score: 2))
+    assert @opponent.pro
+  end
+
+  test "player pro status does not reset if rating goes below 2400" do
+    @player.update_attributes!(rating: Elo.config.pro_rating_boundry + 1, pro: true)
+    Match::Record.call(params.merge(score: 1, opponent_score: 2))
+    assert @player.pro
+  end
+
+  test "opponent pro status does not reset if rating goes below 2400" do
+    @opponent.update_attributes!(rating: Elo.config.pro_rating_boundry + 1, pro: true)
+    Match::Record.call(params)
+    assert @opponent.pro
   end
 
   test "halts if score is tied" do
@@ -86,6 +110,6 @@ class Match::RecordTest < ActiveSupport::TestCase
       opponent: @opponent,
       score: 2,
       opponent_score: 1
-    }.symbolize_keys
+    }
   end
 end
