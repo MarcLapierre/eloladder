@@ -30,6 +30,11 @@ class PlayerTest < ActiveSupport::TestCase
     refute @player.valid?
   end
 
+  test "player must have games_played" do
+    @player.games_played = nil
+    refute @player.valid?
+  end
+
   test "pro designation defaults to false" do
     refute Player.new.pro?
   end
@@ -40,5 +45,9 @@ class PlayerTest < ActiveSupport::TestCase
 
   test "rating defaults to 1500" do
     assert_equal 1500, Player.new.rating
+  end
+
+  test "games_played defaults to 0" do
+    assert_equal 0, Player.new.games_played
   end
 end

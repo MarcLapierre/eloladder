@@ -34,6 +34,7 @@ gem 'devise'
 gem 'omniauth', '~> 1.0.0'
 gem 'active_operation', '~> 0.1.0'
 
+gem 'elo', :git => 'https://github.com/iain/elo.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

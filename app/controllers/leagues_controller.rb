@@ -1,6 +1,6 @@
 class LeaguesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_league, only: [:show, :edit, :update]
+  before_action :load_league, only: [:show, :edit, :update, :add_match_result]
   before_action :ensure_owner, only: [:edit, :update]
 
   def new
@@ -8,7 +8,7 @@ class LeaguesController < ApplicationController
   end
 
   def create
-    permitted = params.require(:league).permit(permitted_attributes).merge(user: current_user)
+    permitted = permitted_params.merge(user: current_user)
     op = League::Create.new(permitted.to_h.symbolize_keys)
     @league = op.call
 
@@ -29,7 +29,7 @@ class LeaguesController < ApplicationController
   end
 
   def update
-    permitted = params.require(:league).permit(permitted_attributes).merge(league: @league)
+    permitted = permitted_params.merge(league: @league)
     op = League::Update.new(permitted.to_h.symbolize_keys)
     @league = op.call
 
@@ -43,6 +43,21 @@ class LeaguesController < ApplicationController
   end
 
   def edit
+  end
+
+  def add_match_result
+    player = @league.players.find_by(user: current_user)
+    opponent = @league.players.find_by(id: params[:opponent_id])
+    op = Match::Record.new(league: @league, player: player, opponent: opponent,
+      score: params[:score], opponent_score: params[:opponent_score])
+    op.call
+    if op.succeeded?
+      flash[:notice] = "League updated successfully"
+    else
+      flash[:error] = op.output.errors.full_messages
+    end
+
+    redirect_to @league
   end
 
   private
@@ -62,7 +77,7 @@ class LeaguesController < ApplicationController
     end
   end
 
-  def permitted_attributes
-    ["name", "description", "rules", "website_url", "logo_url"]
+  def permitted_params
+    params.require(:league).permit(["name", "description", "rules", "website_url", "logo_url"])
   end
 end

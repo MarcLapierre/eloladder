@@ -56,7 +56,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "#create redirects to login page if user is not logged in" do
-    post leagues_path, params: league_params
+    post leagues_path, params: { league: league_params }
     assert_redirected_to new_user_session_path
   end
 
@@ -64,21 +64,21 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     sign_in @user_league_owner
 
     assert_difference 'League.count', 1 do
-      post leagues_path, params: league_params
+      post leagues_path, params: { league: league_params }
     end
   end
 
   test "#create redirects to leagues#show" do
     sign_in @user_league_owner
 
-    post leagues_path, params: league_params
+    post leagues_path, params: { league: league_params }
     assert_redirected_to league_path(League.last)
   end
 
   test "#create renders #new with errors if creation fails" do
     sign_in @user_league_owner
 
-    post leagues_path, params: league_params.merge!(name: nil)
+    post leagues_path, params: { league: league_params.merge!(name: nil) }
     assert_template 'new'
     assert_select "div.flash>div.error"
   end
@@ -167,7 +167,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     sign_in @user_league_owner
 
     put league_path(@league), params: { league: league_params }
-    assert_redirected_to league_path(League.last)
+    assert_redirected_to league_path(@league)
   end
 
   test "#update renders edit with errors if update fails" do
@@ -190,5 +190,4 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
       logo_url: nil
     }
   end
-
 end

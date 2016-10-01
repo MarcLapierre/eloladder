@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class RankingHistoryTest < ActiveSupport::TestCase
+class RatingHistoryTest < ActiveSupport::TestCase
   def setup
     @player = players(:player)
     @opponent = players(:opponent)
-    @history = ranking_histories(:player_1)
+    @history = rating_histories(:player_1)
     @other_league = leagues(:adventure_club)
   end
 
@@ -27,23 +27,23 @@ class RankingHistoryTest < ActiveSupport::TestCase
     refute @history.valid?
   end
 
-  test "ranking_before is required" do
-    @history.ranking_before = nil
+  test "rating_before is required" do
+    @history.rating_before = nil
     refute @history.valid?
   end
 
-  test "ranking_after is required" do
-    @history.ranking_after = nil
+  test "rating_after is required" do
+    @history.rating_after = nil
     refute @history.valid?
   end
 
-  test "opponent_ranking_before is required" do
-    @history.opponent_ranking_before = nil
+  test "opponent_rating_before is required" do
+    @history.opponent_rating_before = nil
     refute @history.valid?
   end
 
-  test "opponent_ranking_after is required" do
-    @history.opponent_ranking_after = nil
+  test "opponent_rating_after is required" do
+    @history.opponent_rating_after = nil
     refute @history.valid?
   end
 
