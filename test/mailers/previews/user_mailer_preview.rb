@@ -1,5 +1,5 @@
 class UserMailerPreview < ActionMailer::Preview
   def invitation_email
-    UserMailer.invitation_email('test@email.com', 'League Name', 'token123')
+    UserMailer.invitation_email(Invitation.first)
   end
 end

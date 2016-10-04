@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    league = League.find(params[:league_id])
+    league = current_user.leagues.find(params[:league_id])
     op = Invitation::Create.new(league: league, email: params[:email])
     op.call
     if op.succeeded?

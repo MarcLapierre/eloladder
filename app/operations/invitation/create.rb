@@ -17,7 +17,7 @@ class Invitation::Create < ActiveOperation::Base
   end
 
   succeeded do
-    UserMailer.invitation_email(email, league.name, token).deliver_now
+    UserMailer.invitation_email(output).deliver_now
   end
 
   private

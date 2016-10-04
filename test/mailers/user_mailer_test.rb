@@ -2,18 +2,16 @@ require 'test_helper'
 
 class UserMailerTest < ActiveSupport::TestCase
   def setup
-    @email = 'email@example.com'
-    @league_name = 'League Name'
-    @token = 'token123'
+    @invitation = invitations(:pending)
   end
 
   test "invitation_email" do
-    email = UserMailer.invitation_email(@email, @league_name, @token).deliver_now
+    email = UserMailer.invitation_email(@invitation).deliver_now
     refute ActionMailer::Base.deliveries.empty?
 
-    assert_equal [@email], email.to
-    assert_equal "You've been invited to join #{@league_name}", email.subject
-    assert_match(/You've been invited to join #{@league_name}/, email.encoded)
-    assert_match(/#{@token}/, email.encoded)
+    assert_equal [@invitation.email], email.to
+    assert_equal "You've been invited to join #{@invitation.league.name}", email.subject
+    assert_match(/You've been invited to join #{@invitation.league.name}/, email.encoded)
+    assert_match(/#{Rails.application.routes.url_helpers.invitation_path(@invitation)}/, email.encoded)
   end
 end

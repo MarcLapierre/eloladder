@@ -1,7 +1,7 @@
 class UserMailer < ApplicationMailer
-  def invitation_email(email, league_name, token)
-    @league_name = league_name
-    @token = token
-    mail(to: email, subject: "You've been invited to join #{league_name}")
+  def invitation_email(invitation)
+    @league_name = invitation.league.name
+    @url = Rails.application.routes.url_helpers.invitation_path(invitation)
+    mail(to: invitation.email, subject: "You've been invited to join #{@league_name}")
   end
 end
