@@ -1,8 +1,8 @@
 class LeaguesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_league, only: [:show, :edit, :update, :add_match_result]
+  before_action :load_league, only: [:show, :edit, :update, :add_match_result, :invite]
   before_action :load_player, only: [:show, :edit, :update, :add_match_result]
-  before_action :ensure_owner, only: [:edit, :update]
+  before_action :ensure_owner, only: [:edit, :update, :invite]
 
   def new
     @league = League.new
@@ -72,6 +72,21 @@ class LeaguesController < ApplicationController
     end
   rescue StandardError => e
     Rails.logger.error("LeaguesController#add_match_result #{e.inspect}")
+    flash[:error] = "There was a problem sending the invitation."
+  ensure
+    redirect_to @league
+  end
+
+  def invite
+    op = Invitation::Create.new(league: @league, email: params[:email])
+    op.call
+    if op.succeeded?
+      flash[:notice] = "Invitation sent."
+    else
+      flash[:error] = "A pending invitation already exists for that user."
+    end
+  rescue StandardError => e
+    Rails.logger.error("LeaguesController#invite #{e.inspect}")
     flash[:error] = "There was a problem sending the invitation."
   ensure
     redirect_to @league

@@ -21,6 +21,14 @@
   <%= link_to "Edit", edit_league_path(@league) %>
 </div>
 
+<% if @player.owner %>
+  <%= form_tag(league_invite_path(@league), method: "post") do %>
+    <%= label_tag(:email, "Invite user:") %>
+    <%= text_field_tag(:email) %>
+    <%= submit_tag("Invite") %>
+  <% end %>
+<% end %>
+
 <section>
   <h3>Rankings</h3>
   <table>

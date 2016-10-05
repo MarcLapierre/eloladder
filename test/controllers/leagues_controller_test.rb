@@ -9,6 +9,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     @league = leagues(:super_adventure_club)
     @player = players(:league_owner_sac)
     @opponent = players(:opponent)
+    @email = users(:without_invitations).email
   end
 
   test "#index redirects to login page if user is not logged in" do
@@ -248,6 +249,59 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select "div.flash>div.error"
     assert_template 'show'
+  end
+
+  test "#invite redirects to login page if user is not logged in" do
+    post league_invite_path(@league), params: { email: @email }
+    assert_redirected_to new_user_session_path
+  end
+
+  test "#invite redirects to leagues#index if user doesn't own the league" do
+    sign_in @user_with_pending_invitation
+    post league_invite_path(@league), params: { email: @email }
+    assert_redirected_to leagues_path
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
+    assert_template 'index'
+  end
+
+  test "#invite creates an invitation" do
+    sign_in @user_league_owner
+
+    assert_difference 'Invitation.count', 1 do
+      post league_invite_path(@league), params: { email: @email }
+    end
+  end
+
+  test "#invite redirects to leagues#show with a notice" do
+    sign_in @user_league_owner
+
+    post league_invite_path(@league), params: { email: @email }
+    assert_redirected_to league_path(@league)
+
+    follow_redirect!
+    assert_select "div.flash>div.notice"
+  end
+
+  test "#invite redirects to leagues#show with an error if creation fails" do
+    sign_in @user_league_owner
+
+    post league_invite_path(@league), params: nil
+    assert_redirected_to league_path(@league)
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
+  end
+
+  test "#invite redirects to leagues#show with an error if an invitation already exists for the email" do
+    sign_in @user_league_owner
+
+    post league_invite_path(@league), params: { email: @user_with_pending_invitation.email }
+    assert_redirected_to league_path(@league)
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
   end
 
   private

@@ -8,23 +8,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def create
-    league = current_user.leagues.find(params[:league_id])
-    op = Invitation::Create.new(league: league, email: params[:email])
-    op.call
-    if op.succeeded?
-      flash[:notice] = "Invitation sent."
-      redirect_to league_path(league)
-    else
-      flash[:error] = "A pending invitation already exists for that user."
-      redirect_to league_path(league)
-    end
-  rescue StandardError => e
-    Rails.logger.error("InvitationsController#create #{e.inspect}")
-    flash[:error] = "There was a problem sending the invitation."
-    redirect_to league ? league_path(league) : leagues_path
-  end
-
   def accept
     op = Invitation::Accept.new(token: params[:token], user: current_user)
     op.call
