@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require template/skel.min.js
+//= require template/util.js
+//= require template/main.js
 //= require_tree .
