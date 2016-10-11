@@ -1,0 +1,6 @@
+<% [flash[:alert], flash[:error]].compact.each do |item| %>
+  <div class="flash error"><%= item.is_a?(Array) ? "#{item.join(", ").humanize}." : item %></div>
+<% end %>
+<% [flash[:notice]].compact.each do |item| %>
+  <div class="flash notice"><%= item.is_a?(Array) ? "#{item.join(", ").humanize}." : item %></div>
+<% end %>

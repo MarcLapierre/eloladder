@@ -27,17 +27,16 @@
 
     <% if @player.owner %>
       <h3>Manage League</h3>  
-      <div class="actions">
-        <%= link_to "Add match result", league_enter_match_result_path(@league), class: "button" %>
-        <%= link_to "Edit #{@league.name}", edit_league_path(@league), class: "button special" %>
-      </div>
-      <br/>
+      <ul class="actions">
+        <li><%= link_to "Add match result", league_enter_match_result_path(@league), class: "button" %></li>
+        <li><%= link_to "Edit #{@league.name}", edit_league_path(@league), class: "button alt" %></li>
+      </ul>
       <div class="actions">
         <%= form_tag(league_invite_path(@league), method: "post") do %>
           <%= label_tag(:email, "Invite user:") %>
           <%= text_field_tag :email, nil, placeholder: "user@email.com" %>
           <br/>
-          <%= submit_tag "Invite", class: "alt" %>
+          <%= submit_tag "Invite", id: "invite-user", class: "special" %>
         <% end %>
       </div>
     <% else %>
@@ -75,3 +74,19 @@
     </table>
   </div>
 </div>
+
+<% if @player.owner %>
+<script language="javascript">
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  $(document).ready(function() {
+      $('#invite-user').attr('disabled','disabled');
+      $('input#email').keyup(function() {
+          if ($(this).val().match(re)) {
+            $('#invite-user').removeAttr('disabled');
+          } else {
+            $('#invite-user').attr('disabled','disabled');
+          }
+      });
+  });
+</script>
+<% end %>

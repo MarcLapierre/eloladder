@@ -5,4 +5,7 @@ class User < ApplicationRecord
 
   has_many :players
   has_many :leagues, through: :players
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 end

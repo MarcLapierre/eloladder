@@ -17,7 +17,6 @@ class LeaguesController < ApplicationController
       flash[:notice] = "League created successfully"
       redirect_to @league
     else
-      flash[:error] = @league.errors.full_messages
       render 'new'
     end
   rescue StandardError => e
@@ -42,7 +41,6 @@ class LeaguesController < ApplicationController
       flash[:notice] = "League updated successfully"
       redirect_to @league
     else
-      flash[:error] = @league.errors.full_messages
       render "edit"
     end
   rescue StandardError => e

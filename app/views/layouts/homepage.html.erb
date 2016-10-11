@@ -15,35 +15,22 @@
 	</head>
 	<body>
 		<!-- Header -->
-			<header id="header">
-				<div class="inner">
-					<a href="/" class="logo"><strong>elo</strong>ladder</a>
-					<nav id="nav">
-          <% unless current_user %>
-            <%= link_to 'Register', new_user_registration_path %>
-            <%= link_to 'Login', new_user_session_path %>
-          <% else %>
-            <%= link_to 'My Leagues', leagues_path %>
-            <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-          <% end %>
-					</nav>
-				</div>
-			</header>
-			<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
-
-    <!-- <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p> -->
-    <div class="flash">
-      <% [:notice, :error].each do |item| %>
-        <% if flash[item] %>
-          <div class="<%= item.to_s %>">
-            <ul>
-              <li><%= flash[item] %></li>
-            </ul>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
+		<header id="header">
+			<div class="inner">
+				<a href="/" class="logo"><strong>elo</strong>ladder</a>
+				<nav id="nav">
+				<% unless current_user %>
+					<%= link_to 'Register', new_user_registration_path %>
+					<%= link_to 'Login', new_user_session_path %>
+				<% else %>
+					<%= link_to 'My Leagues', leagues_path %>
+					<%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+				<% end %>
+				</nav>
+			</div>
+		</header>
+		<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+		<%= render "flash" %>
     <%= yield %>
 		<!-- Footer -->
 		<section id="footer">

@@ -2,29 +2,37 @@
 
 <% if @leagues.any? %>
   <table class="list leagues">
-    <tr>
-      <th>Logo</th>
-      <th>Name</th>
-      <th>Action</th>
-    </tr>
-  <% @leagues.each do |league| %>
-    <tr>
-      <td class="logo"><img src="<%= league.logo_url %>"></td>
-      <td class="name"><%= league.name %></td>
-      <td class="action">
-        <%= link_to "View", league_path(league) %>
-        <% if current_user.players.find_by(league: league).owner %>
-          <%= link_to "Manage", edit_league_path(league) %>
-          <%= link_to "Delete", league_path(league), method: :delete %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
+    <thead>
+      <tr>
+        <th></th>
+        <th>League</th>
+        <th>My Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @leagues.each do |league| %>
+      <tr class="clickable" data-link-to="<%= league_path(league) %>">
+        <td class="logo"><img src="<%= league.logo_url %>"></td>
+        <td class="name"><%= league.name %></td>
+        <td class="rating"><%= league.players.find_by(user: current_user).rating %></td>
+      </tr>
+    <% end %>
+    </tbody>
+    <tfoot>
+      <td colspan=3></td>
+    </tfoot>
   </table>
 <% else %>
   <div class="empty-text">
     <div class="message">You don't have any leagues right now. Why don't you go ahead and create one?</div>
   </div>
 <% end %>
-<br/>
 <div class="link"><%= link_to "Create a league", new_league_path, class: "button" %></div>
+
+<script language="javascript">
+  $('tr').click( function() {
+      window.location = $(this).attr('data-link-to');
+  }).hover( function() {
+      $(this).toggleClass('hover');
+  });
+</script>

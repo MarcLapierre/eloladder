@@ -13,3 +13,26 @@
  *= require_tree .
  *= require_self
  */
+
+div.flash {
+  color: #ffffff !important;
+  height: 49px;
+  font-family: "Lato", sans-serif;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding-top: 10px;
+}
+
+div.flash.error {
+  background-color: #e5474b;
+}
+
+div.flash.notice {
+  background-color: #5a5a5a;
+}
+
+tr.clickable.hover {
+   cursor: pointer;
+}

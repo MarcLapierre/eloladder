@@ -1,4 +1,8 @@
 <%= form_for @league, url: { action: action } do |f| %>
+  <% if @league.errors.full_messages.any? %>
+    <blockquote><%= @league.errors.full_messages.join(", ").humanize %>.</blockquote>
+  <% end %>
+
   <div class="field">
     <%= f.text_field :name, autofocus: true, placeholder: "League name" %>
   </div>
@@ -19,7 +23,8 @@
     <%= f.text_field :logo_url, placeholder: "Logo - http://your.site.com/logo.png" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit button_text %>
-  </div>
+  <ul class="actions">
+    <li><%= f.submit button_text %><li>
+    <li><%= link_to "Cancel", "#", class: "button alt", onclick: "history.back()" %><li>
+  </ul>
 <% end %>
