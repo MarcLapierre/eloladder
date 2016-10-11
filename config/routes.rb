@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   }
 
   resources :leagues, only: [:index, :show, :new, :create, :edit, :update]
+  get 'leagues/:id/enter_match_result', to: 'leagues#enter_match_result', as: :league_enter_match_result
   post 'leagues/:id/add_match_result', to: 'leagues#add_match_result', as: :league_add_match_result
   post 'leagues/:id/invite', to: 'leagues#invite', as: :league_invite
 

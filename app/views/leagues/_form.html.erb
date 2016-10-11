@@ -1,27 +1,22 @@
 <%= form_for @league, url: { action: action } do |f| %>
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
+    <%= f.text_field :name, autofocus: true, placeholder: "League name" %>
   </div>
 
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_field :description %>
+    <%= f.text_area :description, placeholder: "Description" %>
   </div>
 
   <div class="field">
-    <%= f.label :rules %><br />
-    <%= f.text_field :rules %>
+    <%= f.text_area :rules, placeholder: "Rules - type in one rule per line" %>
   </div>
 
   <div class="field">
-    <%= f.label :website_url %><br />
-    <%= f.text_field :website_url %>
+    <%= f.text_field :website_url, placeholder: "Website - http://your.site.com" %>
   </div>
 
   <div class="field">
-    <%= f.label :logo_url %><br />
-    <%= f.text_field :logo_url %>
+    <%= f.text_field :logo_url, placeholder: "Logo - http://your.site.com/logo.png" %>
   </div>
 
   <div class="actions">

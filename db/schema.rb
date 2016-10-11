@@ -61,8 +61,6 @@ ActiveRecord::Schema.define(version: 20160930225449) do
     t.integer  "opponent_rating_before", null: false
     t.integer  "opponent_rating_after",  null: false
     t.boolean  "won",                    null: false
-    t.integer  "score",                  null: false
-    t.integer  "opponent_score",         null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.index ["league_id"], name: "index_rating_histories_on_league_id"

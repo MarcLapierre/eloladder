@@ -1,4 +1,4 @@
-<h2>Want to join <%= @invitation.league.name %>?</h2>
+<h2>You've been invited to join <%= @invitation.league.name %></h2>
 
 <%= button_to 'Accept', invitation_accept_path(@invitation) %>
-<%= button_to 'Decline', invitation_decline_path(@invitation) %>
+<%= button_to 'Decline', invitation_decline_path(@invitation), class: "alt" %>

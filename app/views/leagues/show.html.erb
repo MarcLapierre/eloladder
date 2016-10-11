@@ -1,46 +1,77 @@
-<h2><%= @league.name %></h2>
-
-<% if @league.website_url %>
-  <%= link_to "Website", @league.website_url %>
-<% end %>
-
-<% if @league.logo_url %>
-  <img src="<%= @league.logo_url %>" />
-<% end %>
-
-<section>
-  <p><%= @league.description %></p>
-</section>
-
-<section>
-  <h3>Rules</h3>
-  <p><%= @league.rules %></p>
-</section>
-
-<div class="actions">
-  <%= link_to "Edit", edit_league_path(@league) %>
-</div>
-
-<% if @player.owner %>
-  <%= form_tag(league_invite_path(@league), method: "post") do %>
-    <%= label_tag(:email, "Invite user:") %>
-    <%= text_field_tag(:email) %>
-    <%= submit_tag("Invite") %>
-  <% end %>
-<% end %>
-
-<section>
-  <h3>Rankings</h3>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Rating</th>
-    </tr>
-    <% @league.players.order(rating: :desc).each do |player| %>
-    <tr>
-      <td><%= player.user.first_name %> <%= player.user.last_name %></td>
-      <td><%= player.rating %></td>
-    </tr>
+<div class="row">
+  <div class="6u 12u$(xsmall)">
+    <h2><%= @league.name %></h2>
+    <% if @league.website_url %>
+      <%= link_to "Website", @league.website_url %>
     <% end %>
-  </table>
-</section>
+
+    <% if @league.logo_url %>
+      <img src="<%= @league.logo_url %>" />
+    <% end %>
+
+    <section>
+      <p><%= @league.description %></p>
+    </section>
+
+    <section>
+      <h3>Rules</h3>
+      <ol>
+        <%
+          rules = @league.rules.split("\n") 
+          rules.each do |rule|
+        %>
+        <li><%= rule %></li>  
+        <% end %>
+      </ol>
+    </section>
+
+    <% if @player.owner %>
+      <h3>Manage League</h3>  
+      <div class="actions">
+        <%= link_to "Add match result", league_enter_match_result_path(@league), class: "button" %>
+        <%= link_to "Edit #{@league.name}", edit_league_path(@league), class: "button special" %>
+      </div>
+      <br/>
+      <div class="actions">
+        <%= form_tag(league_invite_path(@league), method: "post") do %>
+          <%= label_tag(:email, "Invite user:") %>
+          <%= text_field_tag :email, nil, placeholder: "user@email.com" %>
+          <br/>
+          <%= submit_tag "Invite", class: "alt" %>
+        <% end %>
+      </div>
+    <% else %>
+      <h3>Add match result</h3>  
+      <div class="actions">
+        <%= link_to "Add match result", league_enter_match_result_path(@league), class: "button" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="6u$ 12u$(xsmall)">
+  <h2>Standings</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Name</th>
+          <th>Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @league.players.order(rating: :desc).each_with_index do |player, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= player.user.first_name %> <%= player.user.last_name %></td>
+          <td><%= player.rating %></td>
+        </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

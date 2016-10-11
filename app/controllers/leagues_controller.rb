@@ -1,7 +1,7 @@
 class LeaguesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_league, only: [:show, :edit, :update, :add_match_result, :invite]
-  before_action :load_player, only: [:show, :edit, :update, :add_match_result]
+  before_action :load_league, only: [:show, :edit, :update, :add_match_result, :enter_match_result, :invite]
+  before_action :load_player, only: [:show, :edit, :update, :add_match_result, :enter_match_result]
   before_action :ensure_owner, only: [:edit, :update, :invite]
 
   def new
@@ -54,15 +54,17 @@ class LeaguesController < ApplicationController
   def edit
   end
 
+  def enter_match_result
+    @opponents = @league.players - [@player]
+  end
+
   def add_match_result
-    player = @league.players.find_by(user: current_user)
     opponent = @league.players.find_by(id: params[:opponent_id])
     op = Match::Record.new(
       league: @league,
-      player: player,
+      player: @player,
       opponent: opponent,
-      score: params[:score].to_i,
-      opponent_score: params[:opponent_score].to_i
+      won: params[:won].to_i == 1,
     )
     op.call
     if op.succeeded?
@@ -72,7 +74,7 @@ class LeaguesController < ApplicationController
     end
   rescue StandardError => e
     Rails.logger.error("LeaguesController#add_match_result #{e.inspect}")
-    flash[:error] = "There was a problem sending the invitation."
+    flash[:error] = "There was a problem recording your match."
   ensure
     redirect_to @league
   end

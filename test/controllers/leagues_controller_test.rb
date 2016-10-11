@@ -182,14 +182,36 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.flash>div.error"
   end
 
+  test "#enter_match_result redirects to login page if user is not logged in" do
+    get league_enter_match_result_path(@league)
+    assert_redirected_to new_user_session_path
+  end
+
+  test "#enter_match_result redirects to leagues#index if user is not in the league" do
+    sign_in @user_with_pending_invitation
+    get league_enter_match_result_path(@league)
+    assert_redirected_to leagues_path
+
+    follow_redirect!
+    assert_select "div.flash>div.error"
+    assert_template 'index'
+  end
+
+  test "#enter_match_result is accessible if user is signed in and is in the league" do
+    sign_in @user_league_owner
+    get league_enter_match_result_path(@league)
+    assert_response :success
+    assert_template 'enter_match_result'
+  end
+
   test "#add_match_result redirects to login page if user is not logged in" do
-    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, won: 1 }
     assert_redirected_to new_user_session_path
   end
 
   test "#add_match_result redirects to leagues#index if user is not in the league" do
     sign_in @user_with_pending_invitation
-    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, won: 1 }
     assert_redirected_to leagues_path
 
     follow_redirect!
@@ -199,7 +221,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
   test "#add_match_result redirects to league#show with notice" do
     sign_in @user_league_owner
-    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, won: 1 }
     assert_redirected_to league_path(@league)
 
     follow_redirect!
@@ -212,7 +234,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_difference 'RatingHistory.count', 2 do
       assert_difference '@player.rating_histories.count', 1 do
         assert_difference '@opponent.rating_histories.count', 1 do
-          post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+          post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, won: 1 }
         end
       end
     end
@@ -224,7 +246,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
       assert_difference '@opponent.reload.rating', -20 do
         assert_difference '@player.reload.games_played', 1 do
           assert_difference '@opponent.reload.games_played', 1 do
-            post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+            post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, won: 1 }
           end
         end
       end
@@ -233,7 +255,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
   test "#add_match_result redirects to leagues#index with error if player is not in the league" do
     sign_in @user_with_pending_invitation
-    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, score: 2, opponent_score: 1 }
+    post league_add_match_result_path(@league), params: { opponent_id: @opponent.id, won: 1 }
     assert_redirected_to leagues_path
 
     follow_redirect!
@@ -243,7 +265,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
   test "#add_match_result redirects to leagues#show with error if opponent is not in the league" do
     sign_in @user_league_owner
-    post league_add_match_result_path(@league), params: { opponent_id: players(:league_owner_ac).id, score: 2, opponent_score: 1 }
+    post league_add_match_result_path(@league), params: { opponent_id: players(:league_owner_ac).id, won: 1 }
     assert_redirected_to league_path(@league)
 
     follow_redirect!

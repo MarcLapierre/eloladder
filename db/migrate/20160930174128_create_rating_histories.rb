@@ -9,8 +9,6 @@ class CreateRatingHistories < ActiveRecord::Migration[5.0]
       t.integer :opponent_rating_before, null: false
       t.integer :opponent_rating_after, null: false
       t.boolean :won, null: false
-      t.integer :score, null: false
-      t.integer :opponent_score, null: false
       t.timestamps
     end
   end

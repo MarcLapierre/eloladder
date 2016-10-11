@@ -17,4 +17,8 @@ class Player < ApplicationRecord
     self.rating = 1500
     self.games_played = 0
   end
+
+  def player_name
+    "#{user.first_name} #{user.last_name}"
+  end
 end

@@ -48,13 +48,13 @@ class Match::RecordTest < ActiveSupport::TestCase
 
   test "sets opponent pro status if rating goes above 2400" do
     @opponent.rating = Elo.config.pro_rating_boundry
-    Match::Record.call(params.merge(score: 1, opponent_score: 2))
+    Match::Record.call(params.merge(won: false))
     assert @opponent.pro
   end
 
   test "player pro status does not reset if rating goes below 2400" do
     @player.update_attributes!(rating: Elo.config.pro_rating_boundry + 1, pro: true)
-    Match::Record.call(params.merge(score: 1, opponent_score: 2))
+    Match::Record.call(params.merge(won: false))
     assert @player.pro
   end
 
@@ -62,12 +62,6 @@ class Match::RecordTest < ActiveSupport::TestCase
     @opponent.update_attributes!(rating: Elo.config.pro_rating_boundry + 1, pro: true)
     Match::Record.call(params)
     assert @opponent.pro
-  end
-
-  test "halts if score is tied" do
-    op = Match::Record.new(params.merge(score: 1, opponent_score: 1))
-    op.call
-    assert op.halted?
   end
 
   test "halts if player is not in the league" do
@@ -108,8 +102,7 @@ class Match::RecordTest < ActiveSupport::TestCase
       league: @league,
       player: @player,
       opponent: @opponent,
-      score: 2,
-      opponent_score: 1
+      won: true
     }
   end
 end

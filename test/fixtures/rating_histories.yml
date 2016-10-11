@@ -7,8 +7,6 @@ player_1:
   opponent_rating_before: 1500
   opponent_rating_after: 1450
   won: true
-  score: 2
-  opponent_score: 1
 
 opponent_1:
   league: super_adventure_club
@@ -19,5 +17,3 @@ opponent_1:
   opponent_rating_before: 1500
   opponent_rating_after: 1550
   won: false
-  score: 1
-  opponent_score: 2

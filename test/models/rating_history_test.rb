@@ -47,16 +47,6 @@ class RatingHistoryTest < ActiveSupport::TestCase
     refute @history.valid?
   end
 
-  test "score is required" do
-    @history.score = nil
-    refute @history.valid?
-  end
-
-  test "opponent_score is required" do
-    @history.opponent_score = nil
-    refute @history.valid?
-  end
-
   test "won is required" do
     @history.won = nil
     refute @history.valid?
