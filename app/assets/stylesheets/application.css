@@ -36,3 +36,18 @@ div.flash.notice {
 tr.clickable.hover {
    cursor: pointer;
 }
+
+table.plans td.check {
+  font-family: "FontAwesome";
+}
+
+table.plans td.title {
+  font-family: "Lato", sans-serif;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #e5474b;
+}
+
+table.plans .content {
+  text-align: center;
+}

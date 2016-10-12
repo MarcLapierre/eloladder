@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
+  get 'home/plans'
 
   devise_for :users, controllers: {
     sessions: 'users/sessions'
