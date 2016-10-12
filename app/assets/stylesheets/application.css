@@ -51,3 +51,16 @@ table.plans td.title {
 table.plans .content {
   text-align: center;
 }
+
+table.standings td.gravatar {
+  width: 61px;
+}
+
+table.standings td.position {
+  padding-left: 2em;
+  width: 100px;
+}
+
+table.standings td.rating {
+  width: 120px;
+}
