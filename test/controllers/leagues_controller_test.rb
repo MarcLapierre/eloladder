@@ -83,7 +83,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
     post leagues_path, params: { league: league_params.merge!(name: nil) }
     assert_template 'new'
-    assert_select "div.flash>div.error"
+    assert_select "form>blockquote"
   end
 
   test "#show redirects to login page if user is not logged in" do
@@ -97,7 +97,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -125,7 +125,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -153,7 +153,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -176,10 +176,9 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
   test "#update renders edit with errors if update fails" do
     sign_in @user_league_owner
 
-    League.any_instance.stubs(:update_attributes).returns(false)
-    put league_path(@league), params: { league: league_params }
+    put league_path(@league), params: { league: league_params.merge(name: '') }
     assert_template 'edit'
-    assert_select "div.flash>div.error"
+    assert_select "form>blockquote"
   end
 
   test "#enter_match_result redirects to login page if user is not logged in" do
@@ -193,7 +192,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -215,7 +214,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -225,7 +224,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(@league)
 
     follow_redirect!
-    assert_select "div.flash>div.notice"
+    assert_select "div.flash.notice"
     assert_template 'show'
   end
 
@@ -259,7 +258,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -269,7 +268,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(@league)
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'show'
   end
 
@@ -284,7 +283,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
     assert_template 'index'
   end
 
@@ -303,7 +302,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(@league)
 
     follow_redirect!
-    assert_select "div.flash>div.notice"
+    assert_select "div.flash.notice"
   end
 
   test "#invite redirects to leagues#show with an error if creation fails" do
@@ -313,7 +312,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(@league)
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
   end
 
   test "#invite redirects to leagues#show with an error if an invitation already exists for the email" do
@@ -323,7 +322,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(@league)
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
   end
 
   private

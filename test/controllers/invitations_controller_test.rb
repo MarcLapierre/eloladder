@@ -28,7 +28,7 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
   end
 
   test "#show redirects to leagues#index with an error if invitation is not pending" do
@@ -40,7 +40,7 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to leagues_path
 
       follow_redirect!
-      assert_select "div.flash>div.error"
+      assert_select "div.flash.error"
     end
   end
 
@@ -73,7 +73,7 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to league_path(@invitation_pending.league)
 
     follow_redirect!
-    assert_select "div.flash>div.notice"
+    assert_select "div.flash.notice"
   end
 
   test "#accept redirects to leagues#index with an error if token is invalid" do
@@ -83,7 +83,7 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
   end
 
   test "#decline redirects to login page if user is not logged in" do
@@ -115,7 +115,7 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.notice"
+    assert_select "div.flash.notice"
   end
 
   test "#decline redirects to leagues#index with an error if token is invalid" do
@@ -125,6 +125,6 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to leagues_path
 
     follow_redirect!
-    assert_select "div.flash>div.error"
+    assert_select "div.flash.error"
   end
 end
