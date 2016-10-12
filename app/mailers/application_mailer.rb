@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'marc.lapierre@shopify.com'
+  default from: 'marc@eternallabs.com'
   layout 'mailer'
 end
