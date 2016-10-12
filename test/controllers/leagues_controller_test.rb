@@ -108,12 +108,6 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_template 'show'
   end
 
-  test "#show shows the league details" do
-    sign_in @user_league_owner
-    get league_path(@league)
-    assert_select "a[href=\"#{@league.website_url}\"]"
-  end
-
   test "#edit redirects to login page if user is not logged in" do
     get edit_league_path(@league)
     assert_redirected_to new_user_session_path
