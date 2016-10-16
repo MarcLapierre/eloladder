@@ -31,7 +31,7 @@
 <div class="link"><%= link_to "Create a league", new_league_path, class: "button" %></div>
 
 <script language="javascript">
-  $('tr').click( function() {
+  $('tr.clickable').click( function() {
       window.location = $(this).attr('data-link-to');
   }).hover( function() {
       $(this).toggleClass('hover');

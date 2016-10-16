@@ -1,0 +1,29 @@
+section.player-section {
+  margin-bottom: 4em;
+}
+
+div.player-info {
+  text-align: center;
+}
+
+div.avatar {
+  margin: 1em;
+}
+
+section.player-glance {
+  table {
+    td {
+      text-align: center;
+      width: 50%;
+    }
+  }
+}
+
+div.chart-container {
+  text-align: center;
+}
+
+canvas.chart {
+  height: 480px !important;
+  width: 800px !important;
+}

@@ -16,4 +16,5 @@
 //= require template/skel.min.js
 //= require template/util.js
 //= require template/main.js
+//= require Chart.bundle.min
 //= require_tree .

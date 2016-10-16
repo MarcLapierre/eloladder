@@ -14,11 +14,11 @@ class Player < ApplicationRecord
 
   def init
     self.pro = false
-    self.rating = 1500
+    self.rating = Elo.config.default_rating
     self.games_played = 0
   end
 
-  def player_name
+  def name
     "#{user.first_name} #{user.last_name}"
   end
 end
