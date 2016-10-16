@@ -1,0 +1,86 @@
+<section class="player-section player-glance">
+  <div class="row">
+    <div class="4u 12u$(xsmall) player-info">
+      <div class="avatar"><img src="<%= @player.user.gravatar_url(size: 180, default: "mm") %>"></div>
+      <h1><%= @player.name %></h1>
+    </div>
+    <div class="8u 12u$(xsmall)">
+      <table>
+        <tbody>
+          <tr>
+            <th>Rating</th>
+            <td><%= @player.rating %></td>
+          </tr>
+          <tr>
+            <th>Position</th>
+            <td><%= @position || "Play a game first!" %></td>
+          </tr>
+          <tr>
+            <th>Games Played</th>
+            <td><%= @player.rating_histories.count %></td>
+          </tr>
+          <tr>
+            <th>Days since last game</th>
+            <td><%= @days_since_played || "N/A" %></td>
+          </tr>
+          <tr>
+            <th>Streak</th>
+            <td>
+              <% if @streak.positive? %>
+                <%= "Won #{@streak} in a row " %>
+              <% elsif @streak.negative? %>
+                <%= "Lost #{@streak.abs} in a row" %>
+              <% else %>
+                <%= "N/A" %>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th>Pro?</th>
+            <td><%= @player.pro ? "Yes" : "No" %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="player-section player-charts">
+  <h3>Rating History</h3>
+  <div class="chart-container">
+    <%= line_chart @rating_histories_chart_data, @rating_histories_chart_options %>
+  </div>
+</section>
+
+<section class="player-section player-match-history">
+  <h3>Match History</h3>
+  <% if @rating_histories.any? %>
+    <table class="match-history">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>VS</th>
+          <th>Outcome</th>
+          <th>My Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rating_histories.each do |match| %>
+          <tr>
+            <td><%= match.created_at.to_date.to_formatted_s(:long_ordinal) %></td>
+            <td><%= match.opponent.name %></td>
+            <td><%= match.won ? 'Won' : 'Lost' %></td>
+            <td><%= match.rating_after %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4"></td>
+        </tr>
+      </tfoot>
+    </table>
+  <% else %>
+    <div class="no-result">No matches yet :(</div>
+  <% end %>
+</section>

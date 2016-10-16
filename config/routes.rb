@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   post 'invitations/accept/:token', to: 'invitations#accept', as: :invitation_accept
   post 'invitations/decline/:token', to: 'invitations#decline', as: :invitation_decline
 
+  resources :players, only: [:show]
+
   root to: "home#index"
 end

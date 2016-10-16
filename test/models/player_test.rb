@@ -43,11 +43,15 @@ class PlayerTest < ActiveSupport::TestCase
     refute Player.new.owner?
   end
 
-  test "rating defaults to 1500" do
-    assert_equal 1500, Player.new.rating
+  test "rating defaults to proper default rating" do
+    assert_equal Elo.config.default_rating, Player.new.rating
   end
 
   test "games_played defaults to 0" do
     assert_equal 0, Player.new.games_played
+  end
+
+  test "name returns the user's first and last name'" do
+    assert_equal "#{@player.user.first_name} #{@player.user.last_name}", @player.name
   end
 end
