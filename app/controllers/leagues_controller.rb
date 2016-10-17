@@ -30,8 +30,8 @@ class LeaguesController < ApplicationController
   end
 
   def show
-    @players_without_games_played = @league.players.where(rating_histories_count: 0)
-    @players_with_games_played = @league.players - @players_without_games_played
+    @players_without_games_played = @league.players.where('rating_histories_count = 0').order(created_at: :desc)
+    @players_with_games_played = @league.players.where('rating_histories_count > 0').order(rating: :desc)
   end
 
   def update
