@@ -44,6 +44,7 @@
             <th>Position</th>
             <th>Name</th>
             <th>Rating</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +54,7 @@
             <td class="position"><%= index + 1 %></td>
             <td class="name"><%= player.user.first_name %> <%= player.user.last_name %></td>
             <td class="rating"><%= player.rating %></td>
+            <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
           </tr>
           <% end %>
         </tbody>
@@ -70,6 +72,8 @@
           <tr>
             <th></th>
             <th>Name</th>
+            <th>Joined on</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +81,8 @@
           <tr class="clickable" data-link-to="<%= player_path(player) %>">
             <td class="gravatar" style="background: url(<%= player.user.gravatar_url(size: 50, default: "mm") %>) no-repeat center"></td>
             <td class="name"><%= player.user.first_name %> <%= player.user.last_name %></td>
+            <td class="created-at"><%= player.created_at.strftime('%b %d, %Y') %></td>
+            <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
           </tr>
           <% end %>
         </tbody>

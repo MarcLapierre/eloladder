@@ -7,6 +7,7 @@
         <th></th>
         <th>League</th>
         <th>My Rating</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
         <td class="logo" style="background-image: url(<%= league.logo_url %>) no-repeat center"></td>
         <td class="name"><%= league.name %></td>
         <td class="rating"><%= league.players.find_by(user: current_user).rating %></td>
+        <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
       </tr>
     <% end %>
     </tbody>

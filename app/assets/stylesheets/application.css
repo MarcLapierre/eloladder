@@ -37,3 +37,6 @@ tr.clickable.hover {
    cursor: pointer;
 }
 
+td.select-icon {
+  width: 40px;
+}
