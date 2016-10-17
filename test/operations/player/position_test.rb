@@ -16,7 +16,7 @@ class Player::PositionTest < ActiveSupport::TestCase
     assert_equal 1, Player::Position.call(@player)
 
     @player.update_attributes!(rating: 0)
-    assert_equal @player.league.players.count, Player::Position.call(@player)
+    assert_equal @player.league.players.where('rating_histories_count > 0').count, Player::Position.call(@player)
   end
 
   test "returns nil if player hasn't played any games" do

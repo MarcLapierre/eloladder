@@ -6,6 +6,6 @@ class Player::Position < ActiveOperation::Base
   end
 
   def execute
-    player.league.players.where("rating > #{player.rating}").count + 1
+    player.league.players.where("rating_histories_count > 0 AND rating > #{player.rating}").count + 1
   end
 end
