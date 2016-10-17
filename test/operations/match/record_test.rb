@@ -32,14 +32,6 @@ class Match::RecordTest < ActiveSupport::TestCase
     end
   end
 
-  test "increments games played for both players" do
-    assert_difference '@player.games_played', 1 do
-      assert_difference '@opponent.games_played', 1 do
-        Match::Record.call(params)
-      end
-    end
-  end
-
   test "sets player pro status if rating goes above 2400" do
     @player.rating = Elo.config.pro_rating_boundry
     Match::Record.call(params)

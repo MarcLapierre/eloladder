@@ -31,12 +31,10 @@ class Match::Record < ActiveOperation::Base
         won: !won
       )
       player.update!(
-        games_played: player.games_played + 1,
         rating: new_stats[:player][:rating],
         pro: new_stats[:player][:pro]
       )
       opponent.update!(
-        games_played: opponent.games_played + 1,
         rating: new_stats[:opponent][:rating],
         pro: new_stats[:opponent][:pro]
       )
