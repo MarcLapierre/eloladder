@@ -30,17 +30,25 @@ class PlayersController < ApplicationController
 
   def rating_histories_chart_data
     return nil unless @player.rating_histories.any?
-    line_chart_data(@player.rating_histories.map { |rating_history|
+    rating_dataset = origin_point + @player.rating_histories.map { |rating_history|
       {
         x: rating_history.created_at.to_i * 1000,
         y: rating_history.rating_after
       }
-    })
+    }
+    line_chart_data(rating_dataset)
   end
 
   def rating_histories_chart_options
     return nil unless @player.rating_histories.any?
     time_span = @player.rating_histories.last.created_at - @player.rating_histories.first.created_at
     line_chart_time_options(time_span)
+  end
+
+  def origin_point
+    [{
+      x: @player.created_at,
+      y: Elo.config.default_rating
+    }]
   end
 end
