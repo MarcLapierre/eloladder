@@ -47,9 +47,13 @@
 
 <section class="player-section player-charts">
   <h3>Rating History</h3>
-  <div class="chart-container">
-    <%= line_chart @rating_histories_chart_data, @rating_histories_chart_options %>
-  </div>
+  <% if @rating_histories_chart_data && @rating_histories_chart_options %>
+    <div class="chart-container">
+      <%= line_chart @rating_histories_chart_data, @rating_histories_chart_options %>
+    </div>
+  <% else %>
+    <div class="no-result">No matches yet :(</div>
+  <% end %>
 </section>
 
 <section class="player-section player-match-history">
