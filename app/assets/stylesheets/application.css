@@ -40,3 +40,7 @@ tr.clickable.hover {
 td.select-icon {
   width: 40px;
 }
+
+td.gravatar {
+  width: 61px;
+}

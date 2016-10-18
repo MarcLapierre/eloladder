@@ -13,7 +13,7 @@
     <tbody>
     <% @leagues.each do |league| %>
       <tr class="clickable" data-link-to="<%= league_path(league) %>">
-        <td class="logo" style="background-image: url(<%= league.logo_url %>) no-repeat center"></td>
+        <td class="gravatar" style="background-image: url(<%= league.logo_url %>) no-repeat center"></td>
         <td class="name"><%= league.name %></td>
         <td class="rating"><%= league.players.find_by(user: current_user).rating %></td>
         <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
@@ -31,6 +31,30 @@
   </div>
 <% end %>
 <div class="link"><%= link_to "Create a league", new_league_path, class: "button" %></div>
+
+<% if @unclaimed_invitations.any? %>
+  <br/>
+  <h2>Invitation</h2>
+  <table class="list invitations">
+    <thead>
+      <tr>
+        <th>League</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @unclaimed_invitations.each do |invitation| %>
+      <tr class="clickable" data-link-to="<%= invitation_path(invitation) %>">
+        <td class="name"><%= invitation.league.name %></td>
+        <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
+      </tr>
+    <% end %>
+    </tbody>
+    <tfoot>
+      <td colspan=3></td>
+    </tfoot>
+  </table>
+<% end %>
 
 <script language="javascript">
   $('tr.clickable').click( function() {

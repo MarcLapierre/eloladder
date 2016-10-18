@@ -27,6 +27,7 @@ class LeaguesController < ApplicationController
 
   def index
     @leagues = current_user.leagues
+    @unclaimed_invitations = current_user.invitations.pending
   end
 
   def show
