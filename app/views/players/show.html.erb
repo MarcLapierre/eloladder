@@ -63,24 +63,26 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>VS</th>
           <th>Outcome</th>
-          <th>My Rating</th>
+          <th></th>
+          <th>VS</th>
+          <th>Rating After</th>
         </tr>
       </thead>
       <tbody>
         <% @rating_histories.each do |match| %>
           <tr>
             <td><%= match.created_at.to_date.to_formatted_s(:long_ordinal) %></td>
-            <td><%= match.opponent.name %></td>
             <td><%= match.won ? 'Won' : 'Lost' %></td>
+            <td>against</td>
+            <td><%= match.opponent.name %></td>
             <td><%= match.rating_after %></td>
           </tr>
         <% end %>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4"></td>
+          <td colspan="5"></td>
         </tr>
       </tfoot>
     </table>
