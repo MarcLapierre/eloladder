@@ -1,0 +1,6 @@
+player_opponent_1:
+  league: super_adventure_club
+  player: player
+  opponent: opponent
+  player_score: 2
+  opponent_score: 1

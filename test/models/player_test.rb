@@ -54,9 +54,9 @@ class PlayerTest < ActiveSupport::TestCase
     end
   end
 
-  test "games_played returns teh number of rating histories" do
+  test "games_played returns the number of rating histories" do
     5.times do
-      Match::Record.call(player: @player, opponent: @opponent, league: @league, won: true)
+      Match::Record.call(player: @player, opponent: @opponent, league: @league, player_score: 2, opponent_score: 1)
       assert_equal @player.rating_histories.count, @player.games_played
     end
   end

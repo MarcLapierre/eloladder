@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017213644) do
+ActiveRecord::Schema.define(version: 20161021140133) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "token",       null: false
@@ -37,6 +37,18 @@ ActiveRecord::Schema.define(version: 20161017213644) do
     t.string   "logo_url"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.integer  "league_id",      null: false
+    t.integer  "player_id",      null: false
+    t.integer  "opponent_id",    null: false
+    t.integer  "player_score",   null: false
+    t.integer  "opponent_score", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["league_id"], name: "index_matches_on_league_id"
+    t.index ["player_id"], name: "index_matches_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|

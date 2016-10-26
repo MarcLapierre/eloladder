@@ -14,7 +14,7 @@ class Player::DaysSincePlayedTest < ActiveSupport::TestCase
   end
 
   test "returns the correct number of days since the player's last game" do
-    Match::Record.call(player: @player, opponent: @opponent, league: @league, won: true)
+    Match::Record.call(player: @player, opponent: @opponent, league: @league, player_score: 2, opponent_score: 1)
     [37, 42, 69].each do |num_days|
       Timecop.travel(num_days.days) do
         assert_equal num_days, Player::DaysSincePlayed.call(@player)

@@ -14,6 +14,12 @@ class Match::RecordTest < ActiveSupport::TestCase
     assert op.succeeded?
   end
 
+  test "creates a match" do
+    assert_difference 'Match.count', 1 do
+      Match::Record.call(params)
+    end
+  end
+
   test "records rating history for both players" do
     assert_difference 'RatingHistory.count', 2 do
       assert_difference '@player.rating_histories.count', 1 do
@@ -40,13 +46,13 @@ class Match::RecordTest < ActiveSupport::TestCase
 
   test "sets opponent pro status if rating goes above 2400" do
     @opponent.rating = Elo.config.pro_rating_boundry
-    Match::Record.call(params.merge(won: false))
+    Match::Record.call(params.merge(player_score: 0, opponent_score: 1))
     assert @opponent.pro
   end
 
   test "player pro status does not reset if rating goes below 2400" do
     @player.update_attributes!(rating: Elo.config.pro_rating_boundry + 1, pro: true)
-    Match::Record.call(params.merge(won: false))
+    Match::Record.call(params.merge(player_score: 0, opponent_score: 1))
     assert @player.pro
   end
 
@@ -94,7 +100,8 @@ class Match::RecordTest < ActiveSupport::TestCase
       league: @league,
       player: @player,
       opponent: @opponent,
-      won: true
+      player_score: 2,
+      opponent_score: 1
     }
   end
 end
