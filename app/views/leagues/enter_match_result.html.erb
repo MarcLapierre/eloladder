@@ -3,11 +3,20 @@
     <h2>Enter match result</h2>
     <div class="actions">
       <%= form_tag(league_add_match_result_path(@league), method: "post") do %>
-        <%= radio_button_tag(:won, 1) %>
-        <%= label_tag(:won_1, "I won against") %>
-        <%= radio_button_tag(:won, 0, true) %>
-        <%= label_tag(:won_0, "I lost against") %>
-        <%= select_tag :opponent_id,  options_from_collection_for_select(@opponents, :id, :name) %>
+        <div class="field">
+          <%= label_tag(:opponent_id, "Opponent") %>
+          <%= select_tag :opponent_id, options_from_collection_for_select(@opponents, :id, :name) %>
+        </div>
+        <div class="row">
+          <div class="6u 12u$(xsmall)">
+            <%= label_tag(:player_score, "My Score") %>
+            <%= select_tag :player_score, options_for_select(@score_range) %>
+          </div>
+          <div class="6u 12u$(xsmall)">
+            <%= label_tag(:opponent_score, "Opponent Score") %>
+            <%= select_tag :opponent_score, options_for_select(@score_range) %>
+          </div>
+        </div>
         <ul class="actions">
           <li><%= submit_tag "Record Match" %></li>
           <li><%= link_to "Back to #{@league.name}", league_path(@league), class: "button alt" %></li>

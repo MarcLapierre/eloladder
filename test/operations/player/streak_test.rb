@@ -17,7 +17,7 @@ class Player::StreakTest < ActiveSupport::TestCase
     @player.rating_histories.destroy_all
 
     5.times do |counter|
-      Match::Record.call(player: @player, opponent: @opponent, league: @league, won: true)
+      Match::Record.call(player: @player, opponent: @opponent, league: @league, player_score: 2, opponent_score: 1)
       @player.rating_histories.reload
       assert_equal counter + 1, Player::Streak.call(@player)
     end
@@ -27,7 +27,7 @@ class Player::StreakTest < ActiveSupport::TestCase
     @player.rating_histories.destroy_all
 
     5.times do |counter|
-      Match::Record.call(player: @player, opponent: @opponent, league: @league, won: false)
+      Match::Record.call(player: @player, opponent: @opponent, league: @league, player_score: 1, opponent_score: 2)
       @player.rating_histories.reload
       assert_equal (counter + 1) * -1, Player::Streak.call(@player)
     end

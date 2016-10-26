@@ -57,6 +57,7 @@ class LeaguesController < ApplicationController
 
   def enter_match_result
     @opponents = @league.players - [@player]
+    @score_range = (0..2) #TODO @league.score_range
   end
 
   def add_match_result
@@ -65,7 +66,8 @@ class LeaguesController < ApplicationController
       league: @league,
       player: @player,
       opponent: opponent,
-      won: params[:won].to_i == 1,
+      player_score: params[:player_score].to_i,
+      opponent_score: params[:opponent_score].to_i
     )
     op.call
     if op.succeeded?

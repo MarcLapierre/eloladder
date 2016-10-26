@@ -2,14 +2,25 @@ class Match::Record < ActiveOperation::Base
   input :league, accepts: League, type: :keyword, required: true
   input :player, accepts: Player, type: :keyword, required: true
   input :opponent, accepts: Player, type: :keyword, required: true
-  input :won, accepts: [true, false], type: :keyword, required: true
+  input :player_score, accepts: Integer, type: :keyword, required: true
+  input :opponent_score, accepts: Integer, type: :keyword, required: true
 
   before do
-    halt unless player.league == league && opponent.league == league
+    halt :player_league   unless player.league == league
+    halt :opponent_league unless opponent.league == league
+    halt :player_score    unless player_score >= 0
+    halt :opponent_score  unless opponent_score >= 0
   end
 
   def execute
     ActiveRecord::Base.transaction(requires_new: true) do
+      Match.create!(
+        league: league,
+        player: player,
+        opponent: opponent,
+        player_score: player_score,
+        opponent_score: opponent_score
+      )
       RatingHistory.create!(
         league: league,
         player: player,
@@ -18,7 +29,7 @@ class Match::Record < ActiveOperation::Base
         rating_after: new_stats[:player][:rating],
         opponent_rating_before: opponent.rating,
         opponent_rating_after: new_stats[:opponent][:rating],
-        won: won
+        won: player_score > opponent_score
       )
       RatingHistory.create!(
         league: league,
@@ -28,7 +39,7 @@ class Match::Record < ActiveOperation::Base
         rating_after: new_stats[:opponent][:rating],
         opponent_rating_before: player.rating,
         opponent_rating_after: new_stats[:player][:rating],
-        won: !won
+        won: opponent_score > player_score
       )
       player.update!(
         rating: new_stats[:player][:rating],
@@ -44,10 +55,18 @@ class Match::Record < ActiveOperation::Base
   private
 
   def new_stats
-    @new_ratings ||= begin
+    @new_stats ||= begin
       elo_player = Elo::Player.new(games_played: player.games_played, rating: player.rating, pro: player.pro)
       elo_opponent = Elo::Player.new(games_played: opponent.games_played, rating: opponent.rating, pro: opponent.pro)
-      elo_player.versus(elo_opponent, result: won ? 1 : 0)
+
+      if player_score > opponent_score
+        elo_player.wins_from(elo_opponent)
+      elsif opponent_score > player_score
+        elo_player.loses_from(elo_opponent)
+      else
+        elo_player.plays_draw(elo_opponent)
+      end
+
       {
         player: {
           rating: elo_player.rating,
