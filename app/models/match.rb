@@ -2,6 +2,7 @@ class Match < ApplicationRecord
   belongs_to :league
   belongs_to :player
   belongs_to :opponent, class_name: 'Player', foreign_key: 'opponent_id'
+  has_many :rating_histories
 
   validates :league, presence: true
   validates :player, presence: true

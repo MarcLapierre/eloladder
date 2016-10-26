@@ -1,4 +1,5 @@
 player_1:
+  match: player_opponent_1
   league: super_adventure_club
   player: player
   opponent: opponent
@@ -9,6 +10,7 @@ player_1:
   won: true
 
 opponent_1:
+  match: player_opponent_1
   league: super_adventure_club
   player: opponent
   opponent: player

@@ -1,8 +1,10 @@
 class RatingHistory < ApplicationRecord
   belongs_to :league
+  belongs_to :match
   belongs_to :player, counter_cache: true
   belongs_to :opponent, class_name: 'Player', foreign_key: 'opponent_id'
 
+  validates :match, presence: true
   validates :league, presence: true
   validates :player, presence: true
   validates :opponent, presence: true
