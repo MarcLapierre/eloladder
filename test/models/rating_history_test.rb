@@ -12,6 +12,11 @@ class RatingHistoryTest < ActiveSupport::TestCase
     assert @history.valid?
   end
 
+  test "match is required" do
+    @history.match = nil
+    refute @history.valid?
+  end
+
   test "league is required" do
     @history.league = nil
     refute @history.valid?

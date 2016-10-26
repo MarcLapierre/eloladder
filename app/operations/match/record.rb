@@ -14,7 +14,7 @@ class Match::Record < ActiveOperation::Base
 
   def execute
     ActiveRecord::Base.transaction(requires_new: true) do
-      Match.create!(
+      match = Match.create!(
         league: league,
         player: player,
         opponent: opponent,
@@ -22,6 +22,7 @@ class Match::Record < ActiveOperation::Base
         opponent_score: opponent_score
       )
       RatingHistory.create!(
+        match: match,
         league: league,
         player: player,
         opponent: opponent,
@@ -32,6 +33,7 @@ class Match::Record < ActiveOperation::Base
         won: player_score > opponent_score
       )
       RatingHistory.create!(
+        match: match,
         league: league,
         player: opponent,
         opponent: player,
@@ -49,6 +51,7 @@ class Match::Record < ActiveOperation::Base
         rating: new_stats[:opponent][:rating],
         pro: new_stats[:opponent][:pro]
       )
+      match
     end
   end
 

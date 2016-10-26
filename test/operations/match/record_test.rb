@@ -14,6 +14,11 @@ class Match::RecordTest < ActiveSupport::TestCase
     assert op.succeeded?
   end
 
+  test "returns a match" do
+    match = Match::Record.call(params)
+    assert match.is_a?(Match)
+  end
+
   test "creates a match" do
     assert_difference 'Match.count', 1 do
       Match::Record.call(params)
@@ -91,6 +96,13 @@ class Match::RecordTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+  test "match has two rating histories" do
+    match = Match::Record.call(params)
+    assert_equal 2, match.rating_histories.count
+    assert_equal @player, match.rating_histories.first.player
+    assert_equal @opponent, match.rating_histories.first.opponent
   end
 
   private
