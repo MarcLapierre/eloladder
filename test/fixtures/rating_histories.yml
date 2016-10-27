@@ -8,6 +8,7 @@ player_1:
   opponent_rating_before: 1500
   opponent_rating_after: 1450
   won: true
+  outcome: 'won'
 
 opponent_1:
   match: player_opponent_1
@@ -19,3 +20,4 @@ opponent_1:
   opponent_rating_before: 1500
   opponent_rating_after: 1550
   won: false
+  outcome: 'lost'
