@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027021040) do
+ActiveRecord::Schema.define(version: 20161027032211) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "token",       null: false
@@ -65,19 +65,16 @@ ActiveRecord::Schema.define(version: 20161027021040) do
   end
 
   create_table "rating_histories", force: :cascade do |t|
-    t.integer  "league_id",              null: false
     t.integer  "player_id",              null: false
     t.integer  "opponent_id",            null: false
     t.integer  "rating_before",          null: false
     t.integer  "rating_after",           null: false
     t.integer  "opponent_rating_before", null: false
     t.integer  "opponent_rating_after",  null: false
-    t.boolean  "won",                    null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "match_id",               null: false
     t.string   "outcome"
-    t.index ["league_id"], name: "index_rating_histories_on_league_id"
     t.index ["match_id"], name: "index_rating_histories_on_match_id"
     t.index ["player_id"], name: "index_rating_histories_on_player_id"
   end

@@ -23,26 +23,22 @@ class Match::Record < ActiveOperation::Base
       )
       RatingHistory.create!(
         match: match,
-        league: league,
         player: player,
         opponent: opponent,
         rating_before: player.rating,
         rating_after: new_stats[:player][:rating],
         opponent_rating_before: opponent.rating,
         opponent_rating_after: new_stats[:opponent][:rating],
-        won: player_score > opponent_score,
         outcome: get_outcome(player_score, opponent_score)
       )
       RatingHistory.create!(
         match: match,
-        league: league,
         player: opponent,
         opponent: player,
         rating_before: opponent.rating,
         rating_after: new_stats[:opponent][:rating],
         opponent_rating_before: player.rating,
         opponent_rating_after: new_stats[:player][:rating],
-        won: opponent_score > player_score,
         outcome: get_outcome(opponent_score, player_score)
       )
       player.update!(
