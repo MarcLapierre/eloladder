@@ -17,11 +17,6 @@ class RatingHistoryTest < ActiveSupport::TestCase
     refute @history.valid?
   end
 
-  test "league is required" do
-    @history.league = nil
-    refute @history.valid?
-  end
-
   test "player is required" do
     @history.player = nil
     refute @history.valid?
@@ -52,18 +47,13 @@ class RatingHistoryTest < ActiveSupport::TestCase
     refute @history.valid?
   end
 
-  test "won is required" do
-    @history.won = nil
-    refute @history.valid?
-  end
+  test "outcome must be in the inclusion list" do
+    ['won', 'lost', 'tied'].each do |outcome|
+      @history.outcome = outcome
+      assert @history.valid?
+    end
 
-  test "player must be in the league" do
-    @player.update_attributes!(league: @other_league)
-    refute @history.valid?
-  end
-
-  test "opponent must be in the league" do
-    @opponent.update_attributes!(league: @other_league)
+    @history.outcome = 'another value'
     refute @history.valid?
   end
 end
