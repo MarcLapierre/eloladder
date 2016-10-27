@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026213055) do
+ActiveRecord::Schema.define(version: 20161027021040) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "token",       null: false
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20161026213055) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "match_id",               null: false
+    t.string   "outcome"
     t.index ["league_id"], name: "index_rating_histories_on_league_id"
     t.index ["match_id"], name: "index_rating_histories_on_match_id"
     t.index ["player_id"], name: "index_rating_histories_on_player_id"

@@ -30,7 +30,8 @@ class Match::Record < ActiveOperation::Base
         rating_after: new_stats[:player][:rating],
         opponent_rating_before: opponent.rating,
         opponent_rating_after: new_stats[:opponent][:rating],
-        won: player_score > opponent_score
+        won: player_score > opponent_score,
+        outcome: get_outcome(player_score, opponent_score)
       )
       RatingHistory.create!(
         match: match,
@@ -41,7 +42,8 @@ class Match::Record < ActiveOperation::Base
         rating_after: new_stats[:opponent][:rating],
         opponent_rating_before: player.rating,
         opponent_rating_after: new_stats[:player][:rating],
-        won: opponent_score > player_score
+        won: opponent_score > player_score,
+        outcome: get_outcome(opponent_score, player_score)
       )
       player.update!(
         rating: new_stats[:player][:rating],
@@ -81,5 +83,12 @@ class Match::Record < ActiveOperation::Base
         }
       }
     end
+  end
+
+  def get_outcome(player_score, opponent_score)
+    return "tied" if player_score == opponent_score
+    return "won"  if player_score > opponent_score
+    return "lost" if player_score < opponent_score
+    nil
   end
 end
