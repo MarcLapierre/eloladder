@@ -13,23 +13,23 @@
           </tr>
           <tr>
             <th>Position</th>
-            <td><%= @position || "Play a game first!" %></td>
+            <td><%= position_in_league || "Play a game first!" %></td>
           </tr>
           <tr>
             <th>Games Played</th>
-            <td><%= @player.rating_histories.count %></td>
+            <td><%= @rating_histories.count %></td>
           </tr>
           <tr>
             <th>Days since last game</th>
-            <td><%= @days_since_played || "N/A" %></td>
+            <td><%= days_since_played || "N/A" %></td>
           </tr>
           <tr>
             <th>Streak</th>
             <td>
-              <% if @streak.positive? %>
-                <%= "Won #{@streak} in a row " %>
-              <% elsif @streak.negative? %>
-                <%= "Lost #{@streak.abs} in a row" %>
+              <% if winning_streak.positive? %>
+                <%= "Won #{winning_streak} in a row " %>
+              <% elsif winning_streak.negative? %>
+                <%= "Lost #{winning_streak.abs} in a row" %>
               <% else %>
                 <%= "N/A" %>
               <% end %>
@@ -47,9 +47,9 @@
 
 <section class="player-section player-charts">
   <h3>Rating History</h3>
-  <% if @rating_histories_chart_data && @rating_histories_chart_options %>
+  <% if rating_histories_chart_data && rating_histories_chart_options %>
     <div class="chart-container">
-      <%= line_chart @rating_histories_chart_data, @rating_histories_chart_options %>
+      <%= line_chart rating_histories_chart_data, rating_histories_chart_options %>
     </div>
   <% else %>
     <div class="no-result">No matches yet :(</div>
@@ -68,7 +68,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @rating_histories.each do |rating_history| %>
+        <% @rating_histories.order(created_at: :desc).each do |rating_history| %>
           <tr>
             <td><%= rating_history.created_at.to_date.to_formatted_s(:long_ordinal) %></td>
             <td><%= rating_history.outcome.humanize %> against <%= rating_history.opponent.name %></td>
