@@ -197,6 +197,17 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
     assert_template 'enter_match_result'
   end
 
+  test "#enter_match_result redirects to the league page with an error if there is only one player" do
+    @league.players.where.not(id: @player.id).delete_all
+    sign_in @user_league_owner
+    get league_enter_match_result_path(@league)
+    assert_redirected_to league_path(@league)
+
+    follow_redirect!
+    assert_select "div.flash.error"
+    assert_template 'show'
+  end
+
   test "#add_match_result redirects to login page if user is not logged in" do
     post league_add_match_result_path(@league), params: add_match_result_params
     assert_redirected_to new_user_session_path
