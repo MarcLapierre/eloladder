@@ -3,6 +3,7 @@ class LeaguesController < ApplicationController
   before_action :load_league, only: [:show, :edit, :update, :add_match_result, :enter_match_result, :invite]
   before_action :load_player, only: [:show, :edit, :update, :add_match_result, :enter_match_result]
   before_action :ensure_owner, only: [:edit, :update, :invite]
+  before_action :ensure_at_least_two_players, only: [:enter_match_result]
 
   def new
     @league = League.new
@@ -115,6 +116,13 @@ class LeaguesController < ApplicationController
     unless @league.players.find_by(user: current_user).owner
       flash[:error] = "Nuh-uh. Can't do that."
       redirect_to leagues_path
+    end
+  end
+
+  def ensure_at_least_two_players
+    unless @league.players.count > 1
+      flash[:error] = "You're the only player - why not invite some friends?"
+      redirect_to @league
     end
   end
 

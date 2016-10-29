@@ -35,64 +35,68 @@
     <% end %>
   </div>
   <div class="6u$ 12u$(xsmall)">
-    <h2>Standings</h2>
-    <div class="table-wrapper">
-      <table class="standings">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Position</th>
-            <th>Name</th>
-            <th>Rating</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @players_with_games_played.each_with_index do |player, index| %>
-          <tr class="clickable" data-link-to="<%= player_path(player) %>">
-            <td class="gravatar" style="background: url(<%= player.user.gravatar_url(size: 50, default: "mm") %>) no-repeat center"></td>
-            <td class="position"><%= index + 1 %></td>
-            <td class="name"><%= player.user.first_name %> <%= player.user.last_name %></td>
-            <td class="rating"><%= player.rating %></td>
-            <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
-          </tr>
-          <% end %>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    <h2>New Players</h2>
-    <div class="table-wrapper">
-      <table class="new-players">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Joined on</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @players_without_games_played.each do |player| %>
-          <tr class="clickable" data-link-to="<%= player_path(player) %>">
-            <td class="gravatar" style="background: url(<%= player.user.gravatar_url(size: 50, default: "mm") %>) no-repeat center"></td>
-            <td class="name"><%= player.user.first_name %> <%= player.user.last_name %></td>
-            <td class="created-at"><%= player.created_at.strftime('%b %d, %Y') %></td>
-            <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
-          </tr>
-          <% end %>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+    <% if @players_with_games_played.any? %>
+      <h2>Standings</h2>
+      <div class="table-wrapper">
+        <table class="standings">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Position</th>
+              <th>Name</th>
+              <th>Rating</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @players_with_games_played.each_with_index do |player, index| %>
+            <tr class="clickable" data-link-to="<%= player_path(player) %>">
+              <td class="gravatar" style="background: url(<%= player.user.gravatar_url(size: 50, default: "mm") %>) no-repeat center"></td>
+              <td class="position"><%= index + 1 %></td>
+              <td class="name"><%= player.user.first_name %> <%= player.user.last_name %></td>
+              <td class="rating"><%= player.rating %></td>
+              <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
+            </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    <% end %>
+    <% if @players_without_games_played.any? %>
+      <h2>New Players</h2>
+      <div class="table-wrapper">
+        <table class="new-players">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Joined on</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @players_without_games_played.each do |player| %>
+            <tr class="clickable" data-link-to="<%= player_path(player) %>">
+              <td class="gravatar" style="background: url(<%= player.user.gravatar_url(size: 50, default: "mm") %>) no-repeat center"></td>
+              <td class="name"><%= player.user.first_name %> <%= player.user.last_name %></td>
+              <td class="created-at"><%= player.created_at.strftime('%b %d, %Y') %></td>
+              <td class="select-icon"><span class="icon fa-chevron-right"></span</td>
+            </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    <% end %>
   </div>
 </div>
 
