@@ -4,9 +4,9 @@ class PlayersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_player
   before_action :load_league
+  before_action :load_rating_histories, only: [:show]
 
   def show
-    @rating_histories = @player.rating_histories.order(created_at: :desc)
     @rating_histories_chart_data = rating_histories_chart_data
     @rating_histories_chart_options = rating_histories_chart_options
     @position = Player::Position.call(@player)
@@ -29,8 +29,8 @@ class PlayersController < ApplicationController
   end
 
   def rating_histories_chart_data
-    return nil unless @player.rating_histories.any?
-    rating_dataset = origin_point + @player.rating_histories.map { |rating_history|
+    return unless @rating_histories.any?
+    rating_dataset = origin_point + @rating_histories.map { |rating_history|
       {
         x: rating_history.created_at.to_i * 1000,
         y: rating_history.rating_after
@@ -40,8 +40,8 @@ class PlayersController < ApplicationController
   end
 
   def rating_histories_chart_options
-    return nil unless @player.rating_histories.any?
-    time_span = @player.rating_histories.last.created_at - @player.rating_histories.first.created_at
+    return unless @rating_histories.any?
+    time_span = @rating_histories.last.created_at - @rating_histories.first.created_at
     line_chart_time_options(time_span)
   end
 
@@ -50,5 +50,9 @@ class PlayersController < ApplicationController
       x: @player.created_at,
       y: Elo.config.default_rating
     }]
+  end
+
+  def load_rating_histories
+    @rating_histories ||= @player.rating_histories.order(created_at: :desc)
   end
 end
