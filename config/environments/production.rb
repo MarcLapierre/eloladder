@@ -83,12 +83,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.action_mailer.default_url_options = { host: 'eloladder.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: ENV['MAILER_DEFAULT_HOST'] }
   ActionMailer::Base.smtp_settings = {
     :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],
-    :domain => 'eloladder.herokuapp.com',
-    :address => 'smtp.sendgrid.net',
+    :domain => ENV['MAILER_DOMAIN'],
+    :address => ENV['SENDGRID_HOST'],
     :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true

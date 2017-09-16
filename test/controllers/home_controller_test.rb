@@ -5,9 +5,4 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     get home_index_url
     assert_response :success
   end
-
-  test "#plans is accessible" do
-    get home_plans_url
-    assert_response :success
-  end
 end

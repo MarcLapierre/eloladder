@@ -1,24 +1,11 @@
-# README
+# eloladder
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This was a project to make an ELO-ranking based ladder.
 
-Things you may want to cover:
+You can create multiple leagues, invite players, and record match results. There are some pretty graphs.
 
-* Ruby version
+It has minimal features, but I'm releasing it into the wild "as-is" as inspiration/a template for others who wish to do the same.
 
-* System dependencies
+Updates and support will be minimal, but you're free to fork it and experiment.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+PRs are always welcome.
